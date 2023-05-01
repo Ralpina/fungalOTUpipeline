@@ -1,4 +1,6 @@
-# fungalOTUpipeline
+# Fungal OTU pipeline
+
+This is an Operational Taxonomic Unit (OTU) analysis workflow of (mycorrhizal) fungi. The objective of this workflow is to identify fungal OTUs from Sanger sequencing of ribosomal DNA, and to describe potentially new OTUs. This is by no means the best workflow; however, it is simple and can be used by people who are not familiar with shell scripting, provided they know the basic commands to work in a UNIX environment.  
 
 Software programmes and tools required:
 
