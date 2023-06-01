@@ -78,10 +78,16 @@ The script will create the following directories:
 `myco/scripts`  
 `myco/errors`
 
-Sequences in the format `ab1` (or `scf`) should be then uploaded to the newly created directoy `seqs`
+Sequences in the format `ab1` (or `scf`) should be then uploaded to the newly created directoy `seqs`. The number of sequences uploaded can be checked using `ls seqs | wc -l`
 
-## Basecalling using phred
 
+
+## Basecalling using phred and first quality screening
+The script "2_phred.slurm" will:  
+-perform basecalling, producing output files (format "phd.1") in the folder `phred_out`. (Note that ambiguous peaks are called based on the highest peak).  
+-produce a histogram with the number of high quality bases per read called "histogram_out"
+-perform a first quality screening.
+The quality screening will rely on the information in the phd.1 files For example:
 
 
 
