@@ -31,7 +31,7 @@ Unique code will become the most important identifier of your samples.  In my ca
 -Here we assume that two primers have been used: ITS1F for the forward sequences and ITS4 for the reverse sequences. (Whose names must be capitalised); parts of the pipeline must be changed accordingly if other primers have been used.  
 -In case your unique codes are very long, avoid additional underscores within the rest of the sequence file name (there's a way to circumvent the issue of additional underscores down in the pipeline, but it's better to avoid them in the first place).  
 -Avoid dots within the rest of the sequence file name (there's a way to circumvent the issue of dots down in the pipeline, but it's better to avoid them in the first place);  
--If replicates exist (i.e. sequences representing the same DNA template), add a character to distinguish them after the primer name and before the underscore and do Do not change the unique code. For example, "ITS4a_UNIQUECODE.ab1", "ITS4b_UNIQUECODE.ab1", "ITS4c_UNIQUECODE.ab1"; another option may be to add a number or letter after the unique code (as in one of the examples below), but this option shouldn't be preferred. 
+-If replicates exist (i.e. sequences representing the same DNA template), add a character to distinguish them after the primer name and before the underscore and do not change the unique code. For example, "ITS4a_UNIQUECODE.ab1", "ITS4b_UNIQUECODE.ab1", "ITS4c_UNIQUECODE.ab1"; another option may be to add a number or letter after the unique code (as in one of the examples below), but this option shouldn't be preferred. 
 -Make sure the "ab1" extension is NOT capitalised.
 
 Following the conventions above, sequence file names will be:  
