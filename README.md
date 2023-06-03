@@ -24,9 +24,9 @@ Software programmes and tools required (with versions used for the presented wor
 
 ## Getting organised
 ### Sequence files naming convention
-As the sequence files I inherited (almost 100K!) were not named consistently, I had to explore ways to make their analysis consistent.  
-Subsequently, I built the code based on the assumption that sequence file names followed the conventions below:  
--Make sure each DNA template is indicated by a non-overlapping and unique code (i.e. a unique code MUST NOT be contained in another unique code). This unique code will become the most important identifier of your samples.  In my case, for example, "E05.ab1" is not a valid file name, as "E05" is a well name contained in other unique codes, e.g. "ITS1F_SV13S1E05.ab1" and many others;  
+As the sequence files I inherited (almost 100K!) were not named consistently, I had to explore ways to make their analysis consistent. The code was then built based on the assumption that sequence file names followed the conventions below:  
+-Each DNA template is indicated by a non-overlapping and unique code (i.e. a unique code MUST NOT be contained in another unique code).   
+Unique code will become the most important identifier of your samples.  In my case, for example, "E05.ab1" is not a valid file name, as "E05" is a plate well name contained in other unique codes, e.g. "ITS1F_SV13S1E05.ab1" and many others;  
 -The primer name must be included at the beginning of the sequence name, always followed by an underscore, as in ITS4_SV23B2A01.ab1; 
 -Here we assume that two primers have been used: ITS1F for the forward sequences and ITS4 for the reverse sequences. (Whose names must be capitalised); parts of the pipeline must be changed accordingly if other primers have been used.  
 -In case your unique codes are very long, avoid additional underscores within the rest of the sequence file name (there's a way to circumvent the issue of additional underscores down in the pipeline, but it's better to avoid them in the first place).  
