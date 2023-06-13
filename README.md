@@ -86,8 +86,11 @@ Sequences in the format `ab1` (or `scf`) should be then uploaded to the newly cr
 The script "2_phred.slurm" will:  
 -perform basecalling, producing output files (format "phd.1") in the folder `phred_out`. (Note that ambiguous peaks are called based on the highest peak).  
 -produce a histogram with the number of high quality bases per read called "histogram_out"  
--perform a first quality screening.
-The quality screening will rely on the information in the phd.1 files. For example:
+-perform a first quality screening.  
+The quality screening will rely on the information in the phd.1 files. For example:  
+```grep "TRIM: -1" phred_out/* | awk '{print $1}' | cut -d':' -f 1 > waste1.txt```  
+will print the name of the files where the value of TRIM is minus one. A TRIM value equal to -1 means that the number of high quality bases is < 20, basically a file with no useful information.  
+The script will also rely on the trace peak/area information in the phd.1 files, to establish whether the sequences are of sufficient quality. When peak area ratios are larger than 0.3, the sequences will be removed.  
 
 
 
