@@ -3,7 +3,7 @@
 The objective of this workflow is to identify fungal Operational Taxonomic Units (OTUs) from thousands of ribosomal DNA (mainly Internal Transcribed Spacer) sequences obtained with Sanger sequencing, and to describe potentially new OTUs. Having thousands of sequences makes manual editing of chromatograms time-consuming and impractical, and therefore this workflow is recommended in that case. However, some manual editing or visual inspection of chromatograms is still recommended in the final steps of the workflow, especially when potentially describing new OTUs. 
 This is by no means the best workflow; however, it is simple and can be used by people who are not familiar with scripting, provided they know the basic commands to work in a UNIX environment. 
 
-The workflow is designed for users of the [high performance computing facility at the Royal Botanic Gardens, Kew](https://rbg-kew-bioinformatics-utils.readthedocs.io/en/latest/kewhpc/), but it could be easily adapted to other requirements, provided that the main software tools are available. Most of the analyses will be run using SLURM, a job scheduler that allocates access to resources (it is good practice on KewHPC, see info [here](https://rbg-kew-bioinformatics-utils.readthedocs.io/en/latest/software/slurm/)
+The workflow is designed for users of the [high performance computing facility at the Royal Botanic Gardens, Kew](https://rbg-kew-bioinformatics-utils.readthedocs.io/en/latest/kewhpc/), but it could be easily adapted to other requirements, provided that the main software tools are available. Most of the analyses will be run using SLURM, a job scheduler that allocates access to resources (it is good practice on KewHPC, see info [here](https://rbg-kew-bioinformatics-utils.readthedocs.io/en/latest/software/slurm/))
 
 Software programmes and tools required (with versions used for the presented workflow):  
 
@@ -136,7 +136,17 @@ The script 5_fasta_to_fastq.py simply checks that DNA and quality sequences are 
 module load python/2.7.18
 python 5_fasta_to_fastq.py
  ```
-
+ 
+ ## Filtering and trimming sequences
+ The script "6_rev_compl_trim.slurm" will:  
+-reverse and complement the singlets obtained with the ITS4 (reverse primer) and trim them using seqtk;  
+-trim all contigs and singlets and filter out all sequences shorter than 100 nucleotides using trimmomatic;  
+-convert the fastq file with clean sequences to a fasta file;  
+-check whether some "duplicate" templates exist, i.e. singlets obtained from the same DNA (for example too short to be assembled into a contig), and select one of them based their length (using seqkit to extract lengths) and the peak area ratio of their chromatogram. In particular, the script will keep the singlet with the smallest trace peak-area ratio, but only if the singlet is longer than 150 bp;
+ -produce the following files:  
+ ```./results/clean_filt_singlets.fasta```  
+ ```./results/clean_contigs.fasta```
+ 
 
 
 
