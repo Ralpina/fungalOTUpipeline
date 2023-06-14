@@ -19,6 +19,8 @@ The workflow is designed for users of the [high performance computing facility a
 
 [Filtering and trimming sequences](https://github.com/Ralpina/fungalOTUpipeline#merging-fasta-and-quality-files-to-obtain-fastq-files)  
 
+[Filtering and trimming sequences](https://github.com/Ralpina/fungalOTUpipeline#filtering-chimaeric-sequences)
+
 
 
 
