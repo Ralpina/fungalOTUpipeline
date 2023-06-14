@@ -5,6 +5,26 @@ This is by no means the best workflow; however, it is simple and can be used by 
 
 The workflow is designed for users of the [high performance computing facility at the Royal Botanic Gardens, Kew](https://rbg-kew-bioinformatics-utils.readthedocs.io/en/latest/kewhpc/), but it could be easily adapted to other requirements, provided that the main software tools are available. Most of the analyses will be run using SLURM, a job scheduler that allocates access to resources (it is good practice on KewHPC, see info [here](https://rbg-kew-bioinformatics-utils.readthedocs.io/en/latest/software/slurm/))
 
+# Table of Contents
+
+[Getting organised](https://github.com/Ralpina/fungalOTUpipeline#getting-organised)  
+
+[Basecalling using phred and first quality screening](https://github.com/Ralpina/fungalOTUpipeline#basecalling-using-phred-and-first-quality-screening)  
+
+[Preparing files for phrap assembly using phd2fasta](https://github.com/Ralpina/fungalOTUpipeline#preparing-files-for-phrap-assembly-using-phd2fasta)  
+
+[Assembling forward and reverse files using phrap](https://github.com/Ralpina/fungalOTUpipeline#assembling-forward-and-reverse-files-using-phrap)  
+
+[Merging fasta and quality files to obtain fastq files](https://github.com/Ralpina/fungalOTUpipeline#merging-fasta-and-quality-files-to-obtain-fastq-files)  
+
+[Filtering and trimming sequences](https://github.com/Ralpina/fungalOTUpipeline#merging-fasta-and-quality-files-to-obtain-fastq-files)  
+
+
+
+
+## Getting organised
+### Sequence files naming convention
+
 Software programmes and tools required (with versions used for the presented workflow):  
 
 `phred/0.071220` (see how to obtain it [here](https://www.phrap.com/phred/))  
@@ -22,8 +42,7 @@ Software programmes and tools required (with versions used for the presented wor
 `blast/2.13.0+`  
 `anaconda/2020.11`  
 
-## Getting organised
-### Sequence files naming convention
+
 As the sequence files I inherited (almost 100K!) were not named consistently, I had to explore ways to make their analysis consistent. The code was then built based on the assumption that sequence file names followed the conventions below:  
 -Each DNA template is indicated by a non-overlapping and unique code (i.e. a unique code MUST NOT be contained in another unique code).   
 Unique code will become the most important identifier of your samples.  In my case, for example, "E05.ab1" is not a valid file name, as "E05" is a plate well name contained in other unique codes, e.g. "ITS1F_SV13S1E05.ab1" and many others;  
