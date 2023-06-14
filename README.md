@@ -167,6 +167,10 @@ python 5_fasta_to_fastq.py
  ```./results/clean_contigs.fasta```
  
 
+## Filtering chimaeric sequences
+The script "7_chimaera_filter.sh" will search for chimaeric sequences in contigs and singlets against the [UNITE v.9 database](https://doi.plutof.ut.ee/doi/10.15156/BIO/2483911) using vsearch. At the end of the script, potentially chimaeric sequences will be filtered out and two files will be produced:  
+ ```results/clean_nochim_singlets.fasta```  
+  ```results/clean_nochim_contigs.fasta```
 
 
 
