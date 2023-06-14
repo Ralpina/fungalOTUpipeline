@@ -127,8 +127,15 @@ But in:
 ```AF ITS1F_5953FP.ab1 C 1```  
 ```AF ITS4_5953FP.ab1 U 589```  
 the script will reverse and complement the contig created (including quality file) using seqtk;    
--all contigs and singlets will be concatenated in two different fasta files (likewise quality files).
-
+-all contigs and singlets will be concatenated in two different fasta files (likewise quality files).  
+ 
+ 
+ ## Merging fasta and quality files to obtain fastq files
+The script 5_fasta_to_fastq.py simply checks that DNA and quality sequences are in the same order and combines them in the same fastq files for the following step. The script works in python/2.7 and can be run as follows:
+```sh
+module load python/2.7.18
+python 5_fasta_to_fastq.py
+ ```
 
 
 
