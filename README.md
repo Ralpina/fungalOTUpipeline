@@ -92,6 +92,14 @@ The quality screening will rely on the information in the phd.1 files. For examp
 will print the name of the files where the value of TRIM is minus one. A TRIM value equal to -1 means that the number of high quality bases is < 20, basically a file with no useful information.  
 The script will also rely on the trace peak/area information in the phd.1 files, to establish whether the sequences are of sufficient quality. When peak area ratios are larger than 0.3, the sequences will be removed.  
 
+## Preparing files for phrap assembly using phd2fasta
+The script "3_phd2fasta.slurm" will:  
+-extract unique codes from file names output by phred (phd.1 files);  
+-combine matching forward and reverse sequences (even if multiple ones exist because PCR or sequencing have been repeated) in the same file, which will be named as the unique code;  
+-add information about the orientation of the sequences in the fasta headers.
+
+
+
 
 
 
