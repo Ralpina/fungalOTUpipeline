@@ -138,7 +138,7 @@ python 5_fasta_to_fastq.py
  ```
  
  ## Filtering and trimming sequences
- The script "6_rev_compl_trim.slurm" will:  
+ The script "6_trim_filter.slurm" will:  
 -reverse and complement the singlets obtained with the ITS4 (reverse primer) and trim them using seqtk;  
 -trim all contigs and singlets and filter out all sequences shorter than 100 nucleotides using trimmomatic;  
 -convert the fastq file with clean sequences to a fasta file;  
