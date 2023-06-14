@@ -126,7 +126,8 @@ where "C" means that the sequence has been complemented, in this case the revers
 But in:
 ```AF ITS1F_5953FP.ab1 C 1```  
 ```AF ITS4_5953FP.ab1 U 589```  
-we will reverse complement the contig created (including quality file) using seqtk.
+the script will reverse and complement the contig created (including quality file) using seqtk;    
+-all contigs and singlets will be concatenated in two different fasta files (likewise quality files).
 
 
 
