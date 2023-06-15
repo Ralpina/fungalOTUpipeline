@@ -178,7 +178,15 @@ The script "7_chimaera_filter.sh" will search for chimaeric sequences in contigs
 ## Searching filtered sequences against the UNITE database
 The script "8_searchUnite.sh" will:  
 -search all filtered contigs and singlets against [UNITE v.9](https://doi.plutof.ut.ee/doi/10.15156/BIO/2483911) (using the algorithm usearch_global in vsearch), using a similarity threshold of 97%;  
--print lists of taxa with corresponding SH codes, for contigs, singlets and combined contigs/singlets.
+-print lists of taxa with corresponding SH codes, for contigs, singlets and combined contigs/singlets (with extention .txt);  
+-the script will also produce the following files:  
+  --results/SH_table_contigs.uc: full table of contigs in the format explained in the [vsearch manual](https://vcru.wisc.edu/simonlab/bioinformatics/programs/vsearch/vsearch_manual.pdf);    
+  --results/SH_table_singlets.uc: full table of singlets, as above;  
+  --results/matched_contigs.fasta: sequences of the contigs for which a match in UNITE was found (over 97% similarity);   
+  --results/matched_singlets.fasta: sequences of the singlets for which a match in UNITE was found (over 97% similarity);    
+  --results/notmatched_contigs.fasta: sequences of the contigs for which a match in UNITE was not found (they may match with a lower similarity threshold);      
+  --results/notmatched_singlets.fasta: sequences of the singlets for which a match in UNITE was not found (they may match with a lower similarity threshold).      
+
  
 
 
