@@ -52,17 +52,15 @@ Unique code will become the most important identifier of your samples.  In my ca
 -Here we assume that two primers have been used: ITS1F for the forward sequences and ITS4 for the reverse sequences. (Whose names must be capitalised); parts of the pipeline must be changed accordingly if other primers have been used.  
 -In case your unique codes are very long, avoid additional underscores within the rest of the sequence file name (there's a way to circumvent the issue of additional underscores down in the pipeline, but it's better to avoid them in the first place).  
 -Avoid dots within the rest of the sequence file name (there's a way to circumvent the issue of dots down in the pipeline, but it's better to avoid them in the first place);  
--If replicates exist (i.e. sequences representing the same DNA template), add a character to distinguish them after the primer name and before the underscore and do not change the unique code. For example, "ITS4a_UNIQUECODE.ab1", "ITS4b_UNIQUECODE.ab1", "ITS4c_UNIQUECODE.ab1"; another option may be to add a number or letter after the unique code (as in one of the examples below), but this option shouldn't be preferred. 
+-If replicates exist (i.e. sequences representing the same DNA template), add a character to distinguish them after the primer name and before the underscore and do not change the unique code. For example, "ITS4a_UNIQUECODE.ab1", "ITS4b_UNIQUECODE.ab1", "ITS4c_UNIQUECODE.ab1".  
 -Make sure the "ab1" extension is NOT capitalised.
 
 Following the conventions above, sequence file names will be:  
 "PRIMER_UNIQUECODE*.ab1", as in:  
 "ITS41_SV13S1H07.ab1"    
-"ITS4_SV23B2A01_2.ab1"  
 In the examples above,  
 -"ITS4" is the name of the primer (the other possible primer in my sequences is ITS1F);  
--"1" after "ITS4" indicates that we can find replicate sequences from the same PCR template; their file might be named as ITS4*_ followed by a unique code ("SV13S1H07"), designated to recognise the PCR template. It is important to name replicate sequence files with the same unique code, because they will need to be analysed together;  
--likewise, the "2" in the second file indicates that we can find replicate sequences from the same PCR template; their file name will include the same unique code.   
+-"1" after "ITS4" indicates that we can find replicate sequences from the same PCR template; their file might be named as ITS4*_ followed by a unique code ("SV13S1H07"), designated to recognise the PCR template. It is important to name replicate sequence files with the same unique code, because they will need to be analysed together.     
 
 Pro Tip: use the command `rename` to easily rename your files.  
 
@@ -99,7 +97,8 @@ The script will create the following directories:
 `myco/scripts`  
 `myco/errors`
 
-Sequences in the format `ab1` (or `scf`) should be then uploaded to the newly created directoy `seqs`. The number of sequences uploaded can be checked using `ls seqs | wc -l`
+Sequences in the format `ab1` (or `scf`) should be then uploaded to the newly created directoy `seqs`. The number of sequences uploaded can be checked using `ls seqs | wc -l`.  
+A local database can also be downloaded from the UNITE website, for example: [UNITE v.9 database](https://doi.plutof.ut.ee/doi/10.15156/BIO/2483911).
 
 
 
