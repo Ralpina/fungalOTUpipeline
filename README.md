@@ -20,7 +20,9 @@ The workflow is designed for users of the [high performance computing facility a
 [Filtering and trimming sequences](https://github.com/Ralpina/fungalOTUpipeline#merging-fasta-and-quality-files-to-obtain-fastq-files)  
 
 [Filtering chimaeric sequences](https://github.com/Ralpina/fungalOTUpipeline#filtering-chimaeric-sequences)
+module load vsearch/2.22.1
 
+[Searching filtered sequences against the UNITE database](https://github.com/Ralpina/fungalOTUpipeline#searching-filtered-sequences-against-the-unite-database)
 
 
 
@@ -176,7 +178,7 @@ The script "7_chimaera_filter.sh" will search for chimaeric sequences in contigs
 
 ## Searching filtered sequences against the UNITE database
 The script "8_searchUnite.sh" will:  
--search all filtered contigs and singlets against UNITEv9 (using the algorithm usearch_global in vsearch);  
+-search all filtered contigs and singlets against [UNITE v.9](https://doi.plutof.ut.ee/doi/10.15156/BIO/2483911) (using the algorithm usearch_global in vsearch), using a similarity threshold of 97%;  
 -print lists of taxa with corresponding SH codes, for contigs, singlets and combined contigs/singlets.
  
 
