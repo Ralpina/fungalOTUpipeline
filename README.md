@@ -174,7 +174,11 @@ The script "7_chimaera_filter.sh" will search for chimaeric sequences in contigs
   ```results/clean_nochim_contigs.fasta```
 
 
-
+## Searching filtered sequences against the UNITE database
+The script "8_searchUnite.sh" will:  
+-search all filtered contigs and singlets against UNITEv9 (using the algorithm usearch_global in vsearch);  
+-print lists of taxa with corresponding SH codes, for contigs, singlets and combined contigs/singlets.
+ 
 
 
 
