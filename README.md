@@ -181,11 +181,31 @@ The script "8_searchUnite.sh" will:
 -print lists of taxa with corresponding SH codes, for contigs, singlets and combined contigs/singlets (with extention .txt);  
 -the script will also produce the following files:  
   --results/SH_table_contigs.uc: full table of contigs in the format explained in the [vsearch manual](https://vcru.wisc.edu/simonlab/bioinformatics/programs/vsearch/vsearch_manual.pdf);    
-  --results/SH_table_singlets.uc: full table of singlets, as above;  
-  --results/matched_contigs.fasta: sequences of the contigs for which a match in UNITE was found (over 97% similarity);   
-  --results/matched_singlets.fasta: sequences of the singlets for which a match in UNITE was found (over 97% similarity);    
-  --results/notmatched_contigs.fasta: sequences of the contigs for which a match in UNITE was not found (they may match with a lower similarity threshold);      
-  --results/notmatched_singlets.fasta: sequences of the singlets for which a match in UNITE was not found (they may match with a lower similarity threshold).      
+  --```results/SH_table_singlets.uc```: full table of singlets, as above;  
+  --```results/matched_contigs.fasta```: sequences of the contigs for which a match in UNITE was found (over 97% similarity);   
+  --```results/matched_singlets.fasta```: sequences of the singlets for which a match in UNITE was found (over 97% similarity);    
+  --```results/notmatched_contigs.fasta```: sequences of the contigs for which a match in UNITE was not found (they may match with a lower similarity threshold);      
+  --```results/notmatched_singlets.fasta```: sequences of the singlets for which a match in UNITE was not found (they may match with a lower similarity threshold).      
+
+At this point, we can have an idea of the taxonomic composition of our dataset, which will depend on the taxonomic composition of UNITEv9.
+ 
+ 
+## Identifying sequences with no matching taxa in UNITE ("de novo" OTUs)
+We can now work on the sequences not found in UNITE when using 97% as a similarity threshold. These sequences will be stored in:  
+```results/notmatched_contigs.fasta```  
+```results/notmatched_singlets.fasta```  
+
+### Hard-filtering sequences for clustering
+The script "9_hard_filt.slurm" will:    
+-extract singlets with peak-area ratios < 0.15: the rationale for this filter is to get rid of all sequences for which basecalling was uncertain (those with trace peak-area ratios > 0.15), even if in small portions of the sequences. Trace peak-area ratios are retrieved from the file ./results/duplicate_lengths_peaks.txt, created in one of the previous steps;  
+-convert fasta files from multi-line to single-line, search for and remove stretches of more than nine identical nucleotides (potential indels) which may have disrupted basecalling (from both contigs and singlets);    
+-filter out sequences with more than five consecutive Ns from both contigs and singlets. The script will NOT look for additional ambiguities, as phred and phrap are not expected to have produced any, with the options used above;  
+-produce two filtered files to be used in the subsequent clustering:  
+ ```results/notmatched_filtered_singlets.fasta```   
+ ```results/notmatched_filtered_contigs.fasta```
+ 
+
+ 
 
  
 
