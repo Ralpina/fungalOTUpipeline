@@ -100,7 +100,7 @@ phd2fasta -id ../singR -os ../sing_fastq/singR.fasta -oq ../sing_fastq/singR.qua
 
 I need to extract the info from the ace file, but then need to reverse the fasta and the quality file in the folder assembled_fastq/
 
-grep "AF ITS1F" ../assembled/*.ace | grep ".ab1 C" | cut -d "_" -f 2-20 | cut -d "." -f 1 > ../contigsTOreverse.txt
+grep "AF ITS1F" *.ace | grep ".ab1 C" | cut -d "." -f 1 > ../contigsTOreverse.txt
 
 module load seqtk/1.3
 
