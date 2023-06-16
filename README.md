@@ -23,6 +23,8 @@ The workflow is designed for users of the [high performance computing facility a
 
 [Searching filtered sequences against the UNITE database](https://github.com/Ralpina/fungalOTUpipeline#searching-filtered-sequences-against-the-unite-database)
 
+[Identifying sequences with no matching taxa in UNITE ("de novo" OTUs)](https://github.com/Ralpina/fungalOTUpipeline#identifying-sequences-with-no-matching-taxa-in-unite-de-novo-otus)
+
 
 
 ## Getting organised
