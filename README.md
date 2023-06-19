@@ -215,6 +215,9 @@ to the centroids previously obtained. In particular, it will:
 -concatenate the files ```results/notmatched_contigs.fasta``` and ```results/notmatched_singlets.fasta``` in the file ```./results/notmatched.fasta``` (notice that these files derive from the script 8 and are not filtered);  
 -use vsearch to compare sequences to the centroids in the file ```denovo_centroids.fasta```   
 -produce three files, including the list of the sequences matching to centroids (```results/matched_to_denovo.uc```), and fasta files with sequences matching (```results/matched_to_denovo.fasta```) or not matching to centroids (```results/NOT_matched_to_denovo.fasta```) using a 97% similarity threshold.
+ 
+ 
+ ### Identifying centroid sequences 
 
 
  
