@@ -206,8 +206,8 @@ The script "9_hard_filt.slurm" will:
  ```results/notmatched_filtered_singlets.fasta```   
  ```results/notmatched_filtered_contigs.fasta```
  
-
- 
+### Clustering sequences to obtain centroids
+The script "10_denovo_centroids.sh" will cluster sequences in vsearch based on abundance (cluster_size), using an identity threshold = 97%. The script will output a fasta file, ```denovo_centroids.fasta```, including all the cluster centroid sequences and the relative size of each cluster. 
 
  
 
