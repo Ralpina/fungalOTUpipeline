@@ -55,8 +55,8 @@ trimmomatic SE -phred33 \
 
 # Drop the quality scores to get a fasta file for the next steps (but still keeping the fastq versions for when needed)
 
-vsearch --fastq_filter ./assembled_fastq/clean_contigs.fastq --fastq_qmax 90 --fastaout ./assembled_fastq/clean_contigs.fasta
-vsearch --fastq_filter ./sing_fastq/clean_singlets.fastq --fastq_qmax 90 --fastaout ./sing_fastq/clean_singlets.fasta
+vsearch --fastq_filter ./assembled_fastq/clean_contigs.fastq --fastq_qmax 93 --fastaout ./assembled_fastq/clean_contigs.fasta
+vsearch --fastq_filter ./sing_fastq/clean_singlets.fastq --fastq_qmax 93 --fastaout ./sing_fastq/clean_singlets.fasta
 # (all sequences are kept with this last bit, it's just a file conversion)
 
 # for the next steps
