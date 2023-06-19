@@ -217,7 +217,9 @@ to the centroids previously obtained. In particular, it will:
 -produce three files, including the list of the sequences matching to centroids (```results/matched_to_denovo.uc```), and fasta files with sequences matching (```results/matched_to_denovo.fasta```) or not matching to centroids (```results/NOT_matched_to_denovo.fasta```) using a 97% similarity threshold.
  
  
- ### Identifying centroid sequences 
+ ### Identifying centroid sequences
+ #### Method 1: UNITE search with no similarity constraints
+ #### Method 2: Blast search against global database
 
 
  
