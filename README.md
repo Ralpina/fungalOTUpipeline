@@ -205,9 +205,11 @@ The script "9_hard_filt.slurm" will:
 -produce two filtered files to be used in the subsequent clustering:  
  ```results/notmatched_filtered_singlets.fasta```   
  ```results/notmatched_filtered_contigs.fasta```
- 
-### Clustering sequences to obtain centroids
-The script "10_denovo_centroids.sh" will cluster sequences in vsearch based on abundance (cluster_size), using an identity threshold = 97%. The script will output a fasta file, ```denovo_centroids.fasta```, including all the cluster centroid sequences and the relative size of each cluster. 
+At this point, the trace files of the sequences above might be also checked, to ensure that their quality is sufficient before clustering.
+
+ ### Clustering sequences to obtain centroids
+The script "10_denovo_centroids.sh" will cluster sequences in vsearch based on abundance (cluster_size), using an identity threshold = 97%. The script will output a fasta file, ```denovo_centroids.fasta```, including all the cluster centroid sequences and the relative size of each cluster.  
+
  
 ### Trying to assign all sequences to clusters 
 The script "11_match_unmatched.sh" will try to assign all the sequences that were not found in UNITEv9 using a similarity threshold  = 97%
