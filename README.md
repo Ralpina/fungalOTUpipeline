@@ -1,6 +1,6 @@
 # Fungal OTU pipeline (for KewHPC users)
 
-The objective of this workflow is to identify fungal Operational Taxonomic Units (OTUs) from thousands of ribosomal DNA (mainly Internal Transcribed Spacer) sequences obtained with Sanger sequencing, and to describe potentially new OTUs. Having thousands of sequences makes manual editing of chromatograms time-consuming and impractical, and therefore this workflow is recommended in that case. However, some manual editing or visual inspection of chromatograms is still recommended in the final steps of the workflow, especially when potentially describing new OTUs. 
+The objective of this workflow is to identify fungal Operational Taxonomic Units (OTUs) from thousands of ribosomal DNA (mainly Internal Transcribed Spacer) sequences obtained with Sanger sequencing, and to describe potentially new OTUs. Having thousands of sequences makes manual editing of chromatograms time-consuming and impractical, and therefore this workflow is recommended in that case. However, some visual inspection of chromatograms is still recommended in the final steps of the workflow, especially when potentially describing new OTUs. 
 This is by no means the best workflow; however, it is simple and can be used by people who are not familiar with scripting, provided they know the basic commands to work in a UNIX environment. 
 
 The workflow is designed for users of the [high performance computing facility at the Royal Botanic Gardens, Kew](https://rbg-kew-bioinformatics-utils.readthedocs.io/en/latest/kewhpc/), but it could be easily adapted to other requirements, provided that the main software tools are available. Most of the analyses will be run using SLURM, a job scheduler that allocates access to resources (it is good practice on KewHPC, see info [here](https://rbg-kew-bioinformatics-utils.readthedocs.io/en/latest/software/slurm/)).
@@ -114,6 +114,7 @@ The quality screening will rely on the information in the phd.1 files. For examp
 ```grep "TRIM: -1" phred_out/* | awk '{print $1}' | cut -d':' -f 1 > waste1.txt```  
 will print the name of the files where the value of TRIM is minus one. A TRIM value equal to -1 means that the number of high quality bases is < 20, basically a file with no useful information.  
 The script will also rely on the trace peak/area information in the phd.1 files, to establish whether the sequences are of sufficient quality. When peak area ratios are larger than 0.3, the sequences will be removed.  
+WARNING: This quality filtering will not remove sequences with very high trace signals (and high phred scores) but potentially overlapping peaks. 
 
 ## Preparing files for phrap assembly using phd2fasta
 The script "3_phd2fasta.slurm" will:  
@@ -160,8 +161,8 @@ module load python/2.7.18
 python 5_fasta_to_fastq.py
  ```
  
- ## Filtering and trimming sequences
- The script "6_trim_filter.slurm" will:  
+## Filtering and trimming sequences
+The script "6_trim_filter.slurm" will:  
 -reverse and complement the singlets obtained with the ITS4 (reverse primer) and trim them using seqtk;  
 -trim all contigs and singlets and filter out all sequences shorter than 100 nucleotides using trimmomatic;  
 -convert the fastq file with clean sequences to a fasta file;  
@@ -169,7 +170,7 @@ python 5_fasta_to_fastq.py
  -produce the following files:  
  ```./results/clean_filt_singlets.fasta```  
  ```./results/clean_contigs.fasta```
- 
+WARNING: This quality filtering will not remove sequences with very high trace signals (and high phred scores) but potentially overlapping peaks.
 
 ## Filtering chimaeric sequences
 The script "7_chimaera_filter.sh" will search for chimaeric sequences in contigs and singlets against the [UNITE v.9 database](https://doi.plutof.ut.ee/doi/10.15156/BIO/2483911) using vsearch. At the end of the script, potentially chimaeric sequences will be filtered out and two files will be produced:  
@@ -205,7 +206,7 @@ The script "9_hard_filt.slurm" will:
 -produce two filtered files to be used in the subsequent clustering:  
  ```results/notmatched_filtered_singlets.fasta```   
  ```results/notmatched_filtered_contigs.fasta```
-At this point, the trace files of the sequences above might be also checked, to ensure that their quality is sufficient before clustering.
+WARNING: This quality filtering will not remove sequences with very high trace signals (and high phred scores) but potentially overlapping peaks.
 
  ### Clustering sequences to obtain centroids
 The script "10_denovo_centroids.sh" will cluster sequences in vsearch based on abundance (cluster_size), using an identity threshold = 97%. The script will output a fasta file, ```denovo_centroids.fasta```, including all the cluster centroid sequences and the relative size of each cluster.  
