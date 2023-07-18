@@ -42,13 +42,13 @@ module load vsearch/2.22.1
 trimmomatic SE -phred33 \
         assembled_fastq/contigs.fastq \
         assembled_fastq/clean_contigs.fastq \
-        LEADING:20 TRAILING:20 MINLEN:100
+        LEADING:30 TRAILING:30 MINLEN:100
 
 # for singlets
 trimmomatic SE -phred33 \
         sing_fastq/singlets.fastq \
         sing_fastq/clean_singlets.fastq \
-        LEADING:30 TRAILING:30 MINLEN:100
+        LEADING:25 TRAILING:25 MINLEN:100
 
 # Getting the final fastq and fasta files for Clustering and Database matching
 # we keep contigs and singlets separately
