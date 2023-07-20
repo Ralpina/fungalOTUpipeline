@@ -17,7 +17,7 @@ vsearch --usearch_global results/clean_nochim_singlets.fasta \
         --notmatched results/notmatched_singlets.fasta
 		
 
-# we may need to change the following if using another database, but I didn't need to change it when using sh_general_release_dynamic_s_29.11.2022.fasta of UNITE 9
+# we may need to change the following if using another database (or new UNITE releases)
 		
 #let's grep them to a file:
 grep -v "*" results/SH_table_contigs.uc | cut -f 10 | cut -d '|' -f 1,3 | sort | uniq  > ./results/SH_codes_contigs.txt
