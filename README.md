@@ -138,26 +138,31 @@ With the script "4_phrap_assembly.slurm":
  - we will extract information from .ace files, about the number of contigs generated and the number of sequences from which they were generated. In particular, the first line of each ace file includes "AS <number of contigs> <total number of reads in ace file>", and can either be:  
  (1) "AS 1 2", or "AS 1 3", or "AS 1 4", depending whether there were multiple forward and reverse and one contig was generated from them    
  (2) "AS 0 0", meaning that contigs have not been produced. This happens when we have either:  
-  - only one direction in the first place (only forward or only reverse sequence)  
-  - bad-quality forward sequence    
-  - bad-quality reverse sequence   
-  - bad-quality forward and reverse  
- In the cases above, the "singlets" will be saved in the file with the suffix .singlets (the reverse will not be reverse and complemented).  
- (3) "AS 2 2", meaning that quality for both forward and reverse was ok, but something else prevented generating a contig, probably not enough overlap between the two sequences. In this case, the reverse sequences are not reverse-complemented, even if the ".contigs" file is generated, and the .singlets file will be empty. However, they should be treated as singlets. It makes sense to analyse these two groups of files (contigs and singlets) separately, because they will have different phred scores but also different levels of "consensus".  
+      - only one direction in the first place (only forward or only reverse sequence)  
+      - bad-quality forward sequence    
+      - bad-quality reverse sequence   
+      - bad-quality forward and reverse  
+In the cases above, the "singlets" will be saved in the file with the suffix .singlets (the reverse will not be reverse and complemented). 
+ 
+    (3) "AS 2 2", meaning that quality for both forward and reverse was ok, but something else prevented generating a contig, probably not 
+      enough overlap between the two sequences. In this case, the reverse sequences are not reverse-complemented, even if the ".contigs" file 
+      is generated, and the .singlets file will be empty. However, they should be treated as singlets. It makes sense to analyse these two 
+      groups of files (contigs and singlets) separately, because they will have different phred scores but also different levels of 
+      "consensus".  
  - the information in the ace files will be used to move the contigs in the directory "assembled_fastq" and to create a list of singlets that will be run through phd2fasta again, to generate fasta and quality files in the folders singF and singR.  
  - for some reason, phrap reverse-complements some reads, regardless of their orientation. This information will be available in the ace files, as in:  
 ```AF ITS4_5952FP.ab1 C -513```  
 ```AF ITS1F_5952FP.ab1 U 1```  
 where "C" means that the sequence has been complemented, in this case the reverse sequence. No action is needed in this case.
-But in:
+But in:  
 ```AF ITS1F_5953FP.ab1 C 1```  
 ```AF ITS4_5953FP.ab1 U 589```  
-the script will reverse and complement the contig created (including quality file) using seqtk;    
+the script will reverse and complement the contig created (including quality file) using ```seqtk```;    
  - all contigs and singlets will be concatenated in two different fasta files (likewise quality files).  
  
  
  ## Merging fasta and quality files to obtain fastq files
-The script 5_fasta_to_fastq.py simply checks that DNA and quality sequences are in the same order and combines them in the same fastq files for the following step. The script works in python/2.7 and can be run as follows:
+The script 5_fasta_to_fastq.py simply checks that DNA and quality sequences are in the same order and combines them in the same fastq files for the following step. The script works in ```python/2.7``` and can be run as follows:
 ```sh
 module load python/2.7.18
 python 5_fasta_to_fastq.py
