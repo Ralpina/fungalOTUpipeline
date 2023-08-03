@@ -213,12 +213,12 @@ The script "9_hard_filt.slurm" will:
 - produce two filtered files to be used in the subsequent clustering:  
  ```results/notmatched_filtered_singlets.fasta```   
  ```results/notmatched_filtered_contigs.fasta```  
+WARNING: This quality filtering will not remove sequences with very high trace signals (and high phred scores) but potentially overlapping peaks. 
 
-WARNING: This quality filtering will not remove sequences with very high trace signals (and high phred scores) but potentially overlapping peaks. A MANUAL STEP WITH VISUAL INSPECTION OF CHROMATOGRAMS IS RECOMMENDED AT THIS STAGE OR AFTER CLUSTERING. 
-
- ### Clustering sequences to obtain centroids
-The script "10_denovo_centroids.sh" will cluster sequences in vsearch based on abundance (cluster_size), using an identity threshold = 97% (note that you can adjust this percentage based on your needs). The script will output a fasta file, ```denovo_centroids.fasta```, including all the centroid sequences and the relative size of each cluster. 
-WARNING: If you have not inspected chromatogram sequences of the de novo centroids, A VISUAL INSPECTION OF CHROMATOGRAMS IS RECOMMENDED NOW.
+### Clustering sequences to obtain centroids
+The script "10_denovo_centroids.sh" will:
+- cluster sequences in ```vsearch``` based on abundance (cluster_size), using an identity threshold = 97% (note that you can adjust this percentage based on your needs) and output the file ```./results/denovo_centroids.fasta```, including all the centroid sequences and the relative size of each cluster (this runs quickly and produce a message output that can be visualised in the error file ```errorcluster.txt```; 
+- extract the ab1/scf files (chromatograms) of the original sequences the de novo centroid derive from, and copy them in the newly created folder "chrom_check". Notice that these chromatograms will be pre-assembly and pre-filtering and will not display any trimming made to sequences. s_WARNING_s: If you have not inspected chromatogram sequences before, A MANUAL STEP WITH VISUAL INSPECTION OF CHROMATOGRAMS IS STRONGLY RECOMMENDED AT THIS STAGE.
 
  
 ### Trying to assign all sequences to clusters 
@@ -247,7 +247,7 @@ The script will produce three output files:
 
 
 ### Assigning ecological guilds to "de novo" sequences
-The script 15_funguild.sh will use [FUNGuild](https://github.com/UMNFuN/FUNGuild) to assign ecological guilds to the putative de novo sequences.
+The script 15_funguild.sh will use [FUNGuild](https://github.com/UMNFuN/FUNGuild) to assign ecological guilds to the putative de novo sequences.  
 ...TO BE CONTINUED...
 
 
