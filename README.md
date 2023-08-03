@@ -13,7 +13,7 @@ The workflow is designed for users of the [high performance computing facility a
 
 [Preparing files for phrap assembly using phd2fasta](https://github.com/Ralpina/fungalOTUpipeline#preparing-files-for-phrap-assembly-using-phd2fasta)  
 
-[Assembling forward and reverse files using phrap](https://github.com/Ralpina/fungalOTUpipeline#assembling-forward-and-reverse-files-using-phrap)  
+[Assembling forward and reverse sequences using phrap](https://github.com/Ralpina/fungalOTUpipeline#assembling-forward-and-reverse-files-using-phrap)  
 
 [Merging fasta and quality files to obtain fastq files](https://github.com/Ralpina/fungalOTUpipeline#merging-fasta-and-quality-files-to-obtain-fastq-files)  
 
@@ -122,7 +122,7 @@ The script "3_phd2fasta.slurm" will:
 -combine matching forward and reverse sequences (even if multiple ones exist because PCR or sequencing have been repeated) in the same file, which will be named as the unique code;  
 -add information about the orientation of the sequences in the fasta headers.
 
-## Assembling forward and reverse files using phrap
+## Assembling forward and reverse sequences using phrap
 With the script "4_phrap_assembly.slurm":  
 -we will assemble forward and reverse sequences using phrap, recognising which ones are associated with each other by looking at unique codes;    -phrap will generate eight files per unique code, with the following suffixes:    
 ```contigs```: fasta file with assembled contig(s)  
