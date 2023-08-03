@@ -213,18 +213,20 @@ The script "9_hard_filt.slurm" will:
 - produce two filtered files to be used in the subsequent clustering:  
  ```results/notmatched_filtered_singlets.fasta```   
  ```results/notmatched_filtered_contigs.fasta```  
-WARNING: This quality filtering will not remove sequences with very high trace signals (and high phred scores) but potentially overlapping peaks.
+
+WARNING: This quality filtering will not remove sequences with very high trace signals (and high phred scores) but potentially overlapping peaks. A MANUAL STEP WITH VISUAL INSPECTION OF CHROMATOGRAMS IS RECOMMENDED AT THIS STAGE OR AFTER CLUSTERING. 
 
  ### Clustering sequences to obtain centroids
-The script "10_denovo_centroids.sh" will cluster sequences in vsearch based on abundance (cluster_size), using an identity threshold = 97% (note that you can adjust this percentage based on your needs). The script will output a fasta file, ```denovo_centroids.fasta```, including all the centroid sequences and the relative size of each cluster.  
+The script "10_denovo_centroids.sh" will cluster sequences in vsearch based on abundance (cluster_size), using an identity threshold = 97% (note that you can adjust this percentage based on your needs). The script will output a fasta file, ```denovo_centroids.fasta```, including all the centroid sequences and the relative size of each cluster. 
+WARNING: If you have not inspected chromatogram sequences of the de novo centroids, A VISUAL INSPECTION OF CHROMATOGRAMS IS RECOMMENDED NOW.
 
  
 ### Trying to assign all sequences to clusters 
 The script "11_match_unmatched.sh" will try to assign all the sequences that were not found in UNITEv9 using a similarity threshold = 97%
 to the centroids previously obtained. In particular, it will:  
-- concatenate the files ```results/notmatched_contigs.fasta``` and ```results/notmatched_singlets.fasta``` in the file ```./results/notmatched.fasta``` (notice that these files derive from the script 8 and are not filtered);  
-- use ```vsearch``` to compare sequences to the centroids in the file ```denovo_centroids.fasta```   
-- produce three files, including the list of the sequences matching to centroids (```results/matched_to_denovo.uc```), and fasta files with sequences matching (```results/matched_to_denovo.fasta```) or not matching to centroids (```results/NOT_matched_to_denovo.fasta```) using a 97% similarity threshold.
+- concatenate the files ```./results/notmatched_contigs.fasta``` and ```./results/notmatched_singlets.fasta``` in the file ```./results/notmatched.fasta``` (notice that these files derive from the script 8 and are not filtered);  
+- use ```vsearch``` to compare sequences to the centroids in the file ```./results/denovo_centroids.fasta```   
+- produce three files, including the list of the sequences matching to centroids (```./results/matched_to_denovo.uc```), and fasta files with sequences matching (```./results/matched_to_denovo.fasta```) or not matching to centroids (```./results/NOT_matched_to_denovo.fasta```) using a 97% similarity threshold.
  
  
 ### Identifying "de novo" centroid sequences
@@ -233,19 +235,20 @@ Here, two potential and alternative identification methods will be described: (1
 #### Method 1: Blasting centroid sequences against the global database  
 The script "12_centroids_blastn.slurm" will:  
 - carry out a remote nucleotide blast using the blast binary ```blast/2.13.0+```. Notice that this is performed by splitting the input sequence file in subsets, to decrease the computational effort;  
-- produce an output called ```denovo_blast_summary.txt``` with the 10 most likely blast results for each query sequence.
+- produce an output called ```./results/denovo_blast_summary.txt``` with the 10 most likely blast results for each query sequence.
 The output can then be used by the script "13_centroids_blast_summary.py", that will build a table with the most likely blast result for each query, its taxonomic information, and the various blast metrics.
  
 #### Method 2: Searching centroid sequences against UNITE with no similarity constraints
 The script "14_searchUniteFree.sh" will search the centroids sequences against UNITEv9 with no similarity constraints (i.e. 0.5, which is the minimum, see the [vsearch manual](https://vcru.wisc.edu/simonlab/bioinformatics/programs/vsearch/vsearch_manual.pdf)).
 The script will produce three output files:   
-```denovo_SH_table.uc```: with the search results in the format explained in the [vsearch manual](https://vcru.wisc.edu/simonlab/bioinformatics/programs/vsearch/vsearch_manual.pdf), and including the de novo centroid name with the cluster size in column 9, the matching sequence in UNITE in column 10, and the percentage of similarity in column 4;  
-```denovo_matched_SH.fasta```: including the de novo centroid sequences with a match in UNITE;  
-```denovo_NOTmatched_SH.fasta```: including the de novo centroid sequences without a match in UNITE.
+- ```./results/denovo_SH_table.uc```: with the search results in the format explained in the [vsearch manual](https://vcru.wisc.edu/simonlab/bioinformatics/programs/vsearch/vsearch_manual.pdf), and including the de novo centroid name with the cluster size in column 9, the matching sequence in UNITE in column 10, and the percentage of similarity in column 4;  
+- ```./results/denovo_matched_SH.fasta```: including the de novo centroid sequences with a match in UNITE;  
+- ```./results/denovo_NOTmatched_SH.fasta```: including the de novo centroid sequences without a match in UNITE.
 
 
 ### Assigning ecological guilds to "de novo" sequences
-
+The script 15_funguild.sh will use [FUNGuild](https://github.com/UMNFuN/FUNGuild) to assign ecological guilds to the putative de novo sequences.
+...TO BE CONTINUED...
 
 
 
@@ -256,8 +259,8 @@ Scripts number 5, 12 and 13 are associated with [van der Linde et al. 2018](http
 Roberta Gargiulo's work is funded by Defra.
 
 ### References
-
-
+- Nguyen NH, Song Z, Bates ST, Branco S, et al. 2016. FUNGuild: an open annotation tool for parsing fungal community datasets by ecological guild. Fungal Ecology 20, 241-248.
+- van der Linde S, Suz LM, Orme CDL, et al. 2018 Environment and host as large-scale controls of ectomycorrhizal fungi. Nature 558, 243–248 (2018). https://doi.org/10.1038/s41586-018-0189-9
 
 
 
