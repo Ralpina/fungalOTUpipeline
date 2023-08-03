@@ -69,7 +69,7 @@ In the examples above,
 Pro Tip: use the command `rename` to easily rename your files.  
 
 ### Running scripts and creating directories
-In this workflow we will find three types of scripts:  
+In this workflow we will find three types of scripts (see "Scripts" folder):  
 - slurm scripts. They can have any name and be run from any directory (provided the right working directory path is specified within the file instructions). To run a slurm script you have previously prepared following [KewHPC guidelines](https://rbg-kew-bioinformatics-utils.readthedocs.io/en/latest/software/slurm/), called "myscript.slurm":
 ```sh
 sbatch scripts/myscript.slurm
@@ -162,7 +162,7 @@ the script will reverse and complement the contig created (including quality fil
  
  
  ## Merging fasta and quality files to obtain fastq files
-The script 5_fasta_to_fastq.py simply checks that DNA and quality sequences are in the same order and combines them in the same fastq files for the following step. The script works in ```python/2.7``` and can be run as follows:
+The script 5_fasta_to_fastq.py simply checks that DNA and quality sequences with the same unique code are in the same order and combines them in the same fastq files for the following step. The script works in ```python/2.7``` and can be run as follows:
 ```sh
 module load python/2.7.18
 python 5_fasta_to_fastq.py
@@ -170,13 +170,13 @@ python 5_fasta_to_fastq.py
  
 ## Filtering and trimming sequences
 The script "6_trim_filter.slurm" will:  
--reverse and complement the singlets obtained with the ITS4 (reverse primer) and trim them using seqtk;  
--trim all contigs and singlets and filter out all sequences shorter than 100 nucleotides using trimmomatic;  
+-reverse and complement the singlets obtained with the ITS4 (reverse primer) and trim them using ```seqtk```;  
+-trim all contigs and singlets and filter out all sequences shorter than 100 nucleotides using ```trimmomatic```;  
 -convert the fastq file with clean sequences to a fasta file;  
--check whether some "duplicate" templates exist, i.e. singlets obtained from the same DNA (for example too short to be assembled into a contig), and select one of them based their length (using seqkit to extract lengths) and the peak area ratio of their chromatogram. In particular, the script will keep the singlet with the smallest trace peak-area ratio, but only if the singlet is longer than 150 bp;
+-check whether some "duplicate" templates exist, i.e. singlets obtained from the same DNA (for example too short to be assembled into a contig), and select one of them based their length (using ```seqkit``` to extract lengths) and the peak area ratio of their chromatogram. In particular, the script will keep the singlet with the smallest trace peak-area ratio, but only if the singlet is longer than 150 bp;  
  -produce the following files:  
  ```./results/clean_filt_singlets.fasta```  
- ```./results/clean_contigs.fasta```
+ ```./results/clean_contigs.fasta```  
 WARNING: This quality filtering will not remove sequences with very high trace signals (and high phred scores) but potentially overlapping peaks.
 
 ## Filtering chimaeric sequences
@@ -186,18 +186,18 @@ The script "7_chimaera_filter.sh" will search for chimaeric sequences in contigs
 
 
 ## Searching filtered sequences against the UNITE database
-The script "8_searchUnite.sh" will:  
--search all filtered contigs and singlets against [UNITE v.9](https://doi.plutof.ut.ee/doi/10.15156/BIO/2483911) (using the algorithm usearch_global in vsearch), using a similarity threshold of 97%;  
--print lists of taxa with corresponding SH codes, for contigs, singlets and combined contigs/singlets (with extention .txt);  
--the script will also produce the following files:  
-  --```results/SH_table_contigs.uc```: full table of contigs in the format explained in the [vsearch manual](https://vcru.wisc.edu/simonlab/bioinformatics/programs/vsearch/vsearch_manual.pdf);    
-  --```results/SH_table_singlets.uc```: full table of singlets, as above;  
-  --```results/matched_contigs.fasta```: sequences of the contigs for which a match in UNITE was found (over 97% similarity);   
-  --```results/matched_singlets.fasta```: sequences of the singlets for which a match in UNITE was found (over 97% similarity);    
-  --```results/notmatched_contigs.fasta```: sequences of the contigs for which a match in UNITE was not found (they may match with a lower similarity threshold);      
-  --```results/notmatched_singlets.fasta```: sequences of the singlets for which a match in UNITE was not found (they may match with a lower similarity threshold).      
+The script "8_searchUnite.sh" will:
+- search all filtered contigs and singlets against [UNITE v.9](https://doi.plutof.ut.ee/doi/10.15156/BIO/2483911) (using the algorithm usearch_global in vsearch), using a similarity threshold of 97% (notice that this threshold can be changed based on your needs);  
+- print lists of taxa with corresponding SH codes, for contigs, singlets and combined contigs/singlets (with extention .txt);  
+- the script will also produce the following files:  
+   ```results/SH_table_contigs.uc```: full table of contigs in the format explained in the [vsearch manual](https://vcru.wisc.edu/simonlab/bioinformatics/programs/vsearch/vsearch_manual.pdf);    
+   ```results/SH_table_singlets.uc```: full table of singlets, as above;  
+   ```results/matched_contigs.fasta```: sequences of the contigs for which a match in UNITE was found (over 97% similarity);   
+   ```results/matched_singlets.fasta```: sequences of the singlets for which a match in UNITE was found (over 97% similarity);    
+   ```results/notmatched_contigs.fasta```: sequences of the contigs for which a match in UNITE was not found (they may match with a lower similarity threshold);      
+   ```results/notmatched_singlets.fasta```: sequences of the singlets for which a match in UNITE was not found (they may match with a lower similarity threshold).      
 
-At this point, we can have an idea of the taxonomic composition of our dataset, which will depend on the taxonomic composition of UNITEv9.
+At this point, we can have an idea of the taxonomic composition of our dataset (which will depend on the taxonomic composition of UNITEv9!).
  
  
 ## Identifying sequences with no matching taxa in UNITE ("de novo" OTUs)
@@ -207,33 +207,55 @@ We can now work on the sequences not found in UNITE when using 97% as a similari
 
 ### Hard-filtering sequences for clustering
 The script "9_hard_filt.slurm" will:    
--extract singlets with peak-area ratios < 0.15: the rationale for this filter is to get rid of all sequences for which basecalling was uncertain (those with trace peak-area ratios > 0.15), even if in small portions of the sequences. Trace peak-area ratios are retrieved from the file ./results/duplicate_lengths_peaks.txt, created in one of the previous steps;  
--convert fasta files from multi-line to single-line, search for and remove stretches of more than nine identical nucleotides (potential indels) which may have disrupted basecalling (from both contigs and singlets);    
--filter out sequences with more than five consecutive Ns from both contigs and singlets. The script will NOT look for additional ambiguities, as phred and phrap are not expected to have produced any, with the options used above;  
--produce two filtered files to be used in the subsequent clustering:  
+- extract singlets with peak-area ratios < 0.15: the rationale for this filter is to get rid of all sequences for which basecalling was uncertain (those with trace peak-area ratios > 0.15), even if in small portions of the sequences. Trace peak-area ratios are retrieved from the file ./results/duplicate_lengths_peaks.txt, created in one of the previous steps;  
+- convert fasta files from multi-line to single-line, search for and remove stretches of more than nine identical nucleotides (potential indels) which may have disrupted basecalling (from both contigs and singlets);    
+- filter out sequences with more than five consecutive Ns from both contigs and singlets. The script will NOT look for additional ambiguities, as phred and phrap are not expected to have produced any, with the options used above;  
+- produce two filtered files to be used in the subsequent clustering:  
  ```results/notmatched_filtered_singlets.fasta```   
- ```results/notmatched_filtered_contigs.fasta```
+ ```results/notmatched_filtered_contigs.fasta```  
 WARNING: This quality filtering will not remove sequences with very high trace signals (and high phred scores) but potentially overlapping peaks.
 
  ### Clustering sequences to obtain centroids
-The script "10_denovo_centroids.sh" will cluster sequences in vsearch based on abundance (cluster_size), using an identity threshold = 97%. The script will output a fasta file, ```denovo_centroids.fasta```, including all the cluster centroid sequences and the relative size of each cluster.  
+The script "10_denovo_centroids.sh" will cluster sequences in vsearch based on abundance (cluster_size), using an identity threshold = 97% (note that you can adjust this percentage based on your needs). The script will output a fasta file, ```denovo_centroids.fasta```, including all the centroid sequences and the relative size of each cluster.  
 
  
 ### Trying to assign all sequences to clusters 
-The script "11_match_unmatched.sh" will try to assign all the sequences that were not found in UNITEv9 using a similarity threshold  = 97%
+The script "11_match_unmatched.sh" will try to assign all the sequences that were not found in UNITEv9 using a similarity threshold = 97%
 to the centroids previously obtained. In particular, it will:  
--concatenate the files ```results/notmatched_contigs.fasta``` and ```results/notmatched_singlets.fasta``` in the file ```./results/notmatched.fasta``` (notice that these files derive from the script 8 and are not filtered);  
--use vsearch to compare sequences to the centroids in the file ```denovo_centroids.fasta```   
--produce three files, including the list of the sequences matching to centroids (```results/matched_to_denovo.uc```), and fasta files with sequences matching (```results/matched_to_denovo.fasta```) or not matching to centroids (```results/NOT_matched_to_denovo.fasta```) using a 97% similarity threshold.
+- concatenate the files ```results/notmatched_contigs.fasta``` and ```results/notmatched_singlets.fasta``` in the file ```./results/notmatched.fasta``` (notice that these files derive from the script 8 and are not filtered);  
+- use ```vsearch``` to compare sequences to the centroids in the file ```denovo_centroids.fasta```   
+- produce three files, including the list of the sequences matching to centroids (```results/matched_to_denovo.uc```), and fasta files with sequences matching (```results/matched_to_denovo.fasta```) or not matching to centroids (```results/NOT_matched_to_denovo.fasta```) using a 97% similarity threshold.
  
  
- ### Identifying centroid sequences
- #### Method 1: UNITE search with no similarity constraints
- #### Method 2: Blast search against global database
+### Identifying "de novo" centroid sequences
+Here, two potential and alternative identification methods will be described: (1) blasting the centroid sequences against the NCBI database; and (2) searching the centroid sequences against UNITE using no similarity constraints. 
+ 
+#### Method 1: Blasting centroid sequences against the global database  
+The script "12_centroids_blastn.slurm" will:  
+- carry out a remote nucleotide blast using the blast binary ```blast/2.13.0+```. Notice that this is performed by splitting the input sequence file in subsets, to decrease the computational effort;  
+- produce an output called ```denovo_blast_summary.txt``` with the 10 most likely blast results for each query sequence.
+The output can then be used by the script "13_centroids_blast_summary.py", that will build a table with the most likely blast result for each query, its taxonomic information, and the various blast metrics.
+ 
+#### Method 2: Searching centroid sequences against UNITE with no similarity constraints
+The script "14_searchUniteFree.sh" will search the centroids sequences against UNITEv9 with no similarity constraints (i.e. 0.5, which is the minimum, see the [vsearch manual](https://vcru.wisc.edu/simonlab/bioinformatics/programs/vsearch/vsearch_manual.pdf)).
+The script will produce three output files:   
+```denovo_SH_table.uc```: with the search results in the format explained in the [vsearch manual](https://vcru.wisc.edu/simonlab/bioinformatics/programs/vsearch/vsearch_manual.pdf), and including the de novo centroid name with the cluster size in column 9, the matching sequence in UNITE in column 10, and the percentage of similarity in column 4;  
+```denovo_matched_SH.fasta```: including the de novo centroid sequences with a match in UNITE;  
+```denovo_NOTmatched_SH.fasta```: including the de novo centroid sequences without a match in UNITE.
+
+
+### Assigning ecological guilds to "de novo" sequences
+
+
+
 
 
  
+### Acknowledgements
+Scripts number 5, 12 and 13 are associated with [van der Linde et al. 2018](https://www.nature.com/articles/s41586-018-0189-9).
+Roberta Gargiulo's work is funded by Defra.
 
+### References
 
 
 
