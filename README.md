@@ -57,13 +57,12 @@ The workflow is designed for users of the [high performance computing facility a
 
 ### Sequence files naming convention
 As the sequence files I inherited (almost 100K!) were not named consistently, I had to explore ways to make their analysis consistent. The code was then built based on the assumption that sequence file names followed the conventions below:
-  - Each DNA template is indicated by a non-overlapping and unique code (i.e. a unique code MUST NOT be contained in another unique code).   
-Unique code will become the most important identifier of your samples.  In my case, for example, "E05.ab1" is not a valid file name, as "E05" is a plate well name contained in other unique codes, e.g. "ITS1F_SV13S1E05.ab1" and many others;  
+  - Each DNA template is indicated by a non-overlapping and unique code (i.e. a unique code MUST NOT be contained in another unique code). In my case, for instance, "E05.ab1" is not a valid file name, as "E05" is a plate well name contained in other unique codes, e.g. "ITS1F_SV13S1E05.ab1" and many others. Unique code will become the most important identifier of your samples;  
   - The primer name must be included at the beginning of the sequence name, always followed by an underscore, as in ITS4_SV23B2A01.ab1; 
   - Here we assume that two primers have been used: ITS1F for the forward sequences and ITS4 for the reverse sequences. (Whose names must be capitalised); parts of the pipeline must be changed accordingly if other primers have been used.  
   - In case your unique codes are very long, avoid additional underscores within the rest of the sequence file name (there's a way to circumvent the issue of additional underscores down in the pipeline, but it's better to avoid them in the first place).  
   - Avoid dots within the rest of the sequence file name (there's a way to circumvent the issue of dots down in the pipeline, but it's better to avoid them in the first place);  
-  - If replicates exist (i.e. sequences representing the same DNA template), add a character to distinguish them after the primer name and before the underscore and do not change the unique code. For example, "ITS4a_UNIQUECODE.ab1", "ITS4b_UNIQUECODE.ab1", "ITS4c_UNIQUECODE.ab1". 
+  - If replicates exist (i.e. sequences representing the same DNA template and sequenced using the same primer), add a character to distinguish them after the primer name and before the underscore and do not change the unique code. For example, "ITS4a_UNIQUECODE.ab1", "ITS4b_UNIQUECODE.ab1", "ITS4c_UNIQUECODE.ab1". 
   - Make sure the "ab1" extension is NOT capitalised.
 
 Following the conventions above, sequence file names will be:  
@@ -109,19 +108,19 @@ The script will create the following directories:
 `myco/scripts`  
 `myco/errors`
 
-Sequences in the format `ab1` (or `scf`) should be then uploaded to the newly created directoy `seqs`. The number of sequences uploaded can be checked using `ls seqs | wc -l`.  
+Sequences with the extension `ab1` should be then uploaded to the newly created directoy `seqs`. The number of sequences uploaded can be checked using `ls seqs | wc -l`.  
 A local database can also be downloaded from the UNITE website, for example: [UNITE v.9 database](https://doi.plutof.ut.ee/doi/10.15156/BIO/2483911).
 
 
 
 ## Basecalling using phred and first quality screening
 The script "2_phred.slurm" will:  
- - perform basecalling, producing output files (format "phd.1") in the folder `phred_out`. (Note that ambiguous peaks are called based on the highest peak).  
- - produce a histogram with the number of high quality bases per read called "histogram_out"  
+ - perform basecalling, producing output files (format "phd.1") in the folder `phred_out`. (Note that ambiguous peaks are called based on the highest peak);  
+ - produce a histogram with the number of high quality bases per read called "histogram_out"; 
  - perform a first quality screening.  
 The quality screening will rely on the information in the phd.1 files. For example:  
 ```grep "TRIM: -1" phred_out/* | awk '{print $1}' | cut -d':' -f 1 > waste1.txt```  
-will print the name of the files where the value of TRIM is minus one. A TRIM value equal to -1 means that the number of high quality bases is < 20, basically a file with no useful information.  
+will print the name of the files where the value of TRIM is equal to "-1". A TRIM value equal to "-1" means that the number of high quality bases is < 20, basically a file with no useful information.  
 The script will also rely on the trace peak/area information in the phd.1 files, to establish whether the sequences are of sufficient quality. When peak area ratios are larger than 0.3, the sequences will be removed.  
 WARNING: This quality filtering will not remove sequences with very high trace signals (and high phred scores) but potentially overlapping peaks. 
 
@@ -135,24 +134,24 @@ The script "3_phd2fasta.slurm" will:
 With the script "4_phrap_assembly.slurm":  
  - we will assemble forward and reverse sequences using phrap, recognising which ones are associated with each other by looking at unique codes;
  - phrap will generate eight files per unique code, with the following suffixes:    
-```contigs```: fasta file with assembled contig(s)  
-```contigs.qual```: qualities of contigs      
-```5953FP.problems```: any problem encountered for this group of sequences, usually blank        
-```5953FP.singlets```: fasta files with sequences not assembled  
-```5953FP.contigs.qual```: qualities of contigs    
-```5953FP.problems.qual```:  any problem encountered for this group of qualities, usually blank  
-```5953FP.ace```: see explanation at http://bozeman.mbt.washington.edu/consed/distributions/README.29.0.txt  
+```contigs```: fasta file with assembled contig(s);  
+```contigs.qual```: qualities of contigs;      
+```5953FP.problems```: any problem encountered for this group of sequences, usually blank;        
+```5953FP.singlets```: fasta files with sequences not assembled;  
+```5953FP.contigs.qual```: qualities of contigs;    
+```5953FP.problems.qual```:  any problem encountered for this group of qualities, usually blank;  
+```5953FP.ace```: see explanation at http://bozeman.mbt.washington.edu/consed/distributions/README.29.0.txt;  
 ```5953FP.log```: with info about the analysis.  
  - we will extract information from .ace files, about the number of contigs generated and the number of sequences from which they were generated. In particular, the first line of each ace file includes "AS <number of contigs> <total number of reads in ace file>", and can either be:  
- (1) "AS 1 2", or "AS 1 3", or "AS 1 4", depending whether there were multiple forward and reverse and one contig was generated from them    
- (2) "AS 0 0", meaning that contigs have not been produced. This happens when we have either:  
-      - only one direction in the first place (only forward or only reverse sequence)  
-      - bad-quality forward sequence    
-      - bad-quality reverse sequence   
-      - bad-quality forward and reverse  
-In the cases above, the "singlets" will be saved in the file with the suffix .singlets (the reverse will not be reverse and complemented). 
- 
-    (3) "AS 2 2", meaning that quality for both forward and reverse was ok, but something else prevented generating a contig, probably not 
+ (1) "AS 1 2", or "AS 1 3", or "AS 1 4", depending on whether there were multiple forward and reverse sequences, and only one contig was generated from them;    
+ (2) "AS 0 0", meaning that contigs have not been produced. This happens when we have either:
+      - only one direction in the first place (only forward or only reverse sequence);  
+      - bad-quality forward sequence;    
+      - bad-quality reverse sequence;   
+      - bad-quality forward and reverse.  
+In the cases above, the "singlets" will be saved in the file with the suffix ```.singlets``` (the reverse will not be reverse and complemented).
+
+     (3) "AS 2 2", meaning that quality for both forward and reverse was ok, but something else prevented generating a contig, probably not 
       enough overlap between the two sequences. In this case, the reverse sequences are not reverse-complemented, even if the ".contigs" file 
       is generated, and the .singlets file will be empty. However, they should be treated as singlets. It makes sense to analyse these two 
       groups of files (contigs and singlets) separately, because they will have different phred scores but also different levels of 
@@ -166,11 +165,11 @@ But in:
 ```AF ITS1F_5953FP.ab1 C 1```  
 ```AF ITS4_5953FP.ab1 U 589```  
 the script will reverse and complement the contig created (including quality file) using ```seqtk```;    
- - all contigs and singlets will be concatenated in two different fasta files (likewise quality files).  
+ - all contigs and singlets will be concatenated in two different fasta files (likewise, quality files).  
  
  
  ## Merging fasta and quality files to obtain fastq files
-The script 5_fasta_to_fastq.py simply checks that DNA and quality sequences with the same unique code are in the same order and combines them in the same fastq files for the following step. The script works in ```python/2.7``` and can be run as follows:
+The script "5_fasta_to_fastq.py" simply checks that DNA and quality sequences with the same unique code are in the same order and combines them in the same fastq files for the following step. The script works in ```python/2.7``` and can be run as follows:
 ```sh
 module load python/2.7.18
 python 5_fasta_to_fastq.py
@@ -178,13 +177,14 @@ python 5_fasta_to_fastq.py
  
 ## Filtering and trimming sequences
 The script "6_trim_filter.slurm" will:  
--reverse and complement the singlets obtained with the ITS4 (reverse primer) and trim them using ```seqtk```;  
--trim all contigs and singlets and filter out all sequences shorter than 100 nucleotides using ```trimmomatic```;  
--convert the fastq file with clean sequences to a fasta file;  
--check whether some "duplicate" templates exist, i.e. singlets obtained from the same DNA (for example too short to be assembled into a contig), and select one of them based their length (using ```seqkit``` to extract lengths) and the peak area ratio of their chromatogram. In particular, the script will keep the singlet with the smallest trace peak-area ratio, but only if the singlet is longer than 150 bp;  
- -produce the following files:  
+- reverse and complement the singlets obtained with the ITS4 (reverse primer) and trim them using ```seqtk```;  
+- trim all contigs and singlets and filter out all sequences shorter than 100 nucleotides using ```trimmomatic```;  
+- convert the fastq file with clean sequences to a fasta file;  
+- check whether some "duplicate" templates exist, i.e. singlets obtained from the same DNA (for example too short to be assembled into a contig), and select one of them based their length (using ```seqkit``` to extract lengths) and the peak area ratio of their chromatogram. In particular, the script will keep the singlet with the smallest trace peak-area ratio, but only if the singlet is longer than 150 bp;  
+- produce the following files:  
  ```./results/clean_filt_singlets.fasta```  
  ```./results/clean_contigs.fasta```  
+
 WARNING: This quality filtering will not remove sequences with very high trace signals (and high phred scores) but potentially overlapping peaks.
 
 ## Filtering chimaeric sequences
@@ -215,18 +215,19 @@ We can now work on the sequences not found in UNITE when using 97% as a similari
 
 ### Hard-filtering sequences for clustering
 The script "9_hard_filt.slurm" will:    
-- extract singlets with peak-area ratios < 0.15: the rationale for this filter is to get rid of all sequences for which basecalling was uncertain (those with trace peak-area ratios > 0.15), even if in small portions of the sequences. Trace peak-area ratios are retrieved from the file ./results/duplicate_lengths_peaks.txt, created in one of the previous steps;  
+- extract singlets with peak-area ratios < 0.15: the rationale for this filter is to get rid of all sequences for which basecalling might be uncertain (those with trace peak-area ratios > 0.15), even if in small portions of the sequences. Trace peak-area ratios are retrieved from the file ./results/duplicate_lengths_peaks.txt, created in one of the previous steps;  
 - convert fasta files from multi-line to single-line, search for and remove stretches of more than nine identical nucleotides (potential indels) which may have disrupted basecalling (from both contigs and singlets);    
 - filter out sequences with more than five consecutive Ns from both contigs and singlets. The script will NOT look for additional ambiguities, as phred and phrap are not expected to have produced any, with the options used above;  
 - produce two filtered files to be used in the subsequent clustering:  
  ```results/notmatched_filtered_singlets.fasta```   
  ```results/notmatched_filtered_contigs.fasta```  
+
 WARNING: This quality filtering will not remove sequences with very high trace signals (and high phred scores) but potentially overlapping peaks. 
 
 ### Clustering sequences to obtain centroids
 The script "10_denovo_centroids.sh" will:
-- cluster sequences in ```vsearch``` based on abundance (cluster_size), using an identity threshold = 97% (note that you can adjust this percentage based on your needs) and output the file ```./results/denovo_centroids.fasta```, including all the centroid sequences and the relative size of each cluster (this runs quickly and produce a message output that can be visualised in the error file ```errorcluster.txt```; 
-- extract the ab1/scf files (chromatograms) of the original sequences the de novo centroid derive from, and copy them in the newly created folder "chrom_check". Notice that these chromatograms will be pre-assembly and pre-filtering and will not display any trimming made to sequences. WARNING: If you have not inspected chromatogram sequences before, A MANUAL STEP WITH VISUAL INSPECTION OF CHROMATOGRAMS IS STRONGLY RECOMMENDED AT THIS STAGE, especially before assuming that de novo sequences are new OTUs.
+- cluster sequences in ```vsearch``` based on abundance (cluster_size), using an identity threshold = 97% (note that you can adjust this percentage based on your needs) and output the file ```./results/denovo_centroids.fasta```, including all the centroid sequences and the relative size of each cluster (this runs quickly and produces an output message that can be visualised in the error file ```errorcluster.txt```); 
+- extract the ab1 files (chromatograms) of the original sequences the de novo centroid derive from, and copy them in the newly created folder "chrom_check". Notice that these chromatograms will be pre-assembly and pre-filtering and will not display any trimming made to sequences.   WARNING: If you have not inspected chromatogram sequences before, A MANUAL STEP WITH VISUAL INSPECTION OF CHROMATOGRAMS IS STRONGLY RECOMMENDED AT THIS STAGE, especially before assuming that de novo sequences are new OTUs.
 
  
 ### Trying to assign all sequences to clusters 
@@ -247,7 +248,7 @@ The script "12_centroids_blastn.slurm" will:
 The output can then be used by the script "13_centroids_blast_summary.py", that will build a table with the most likely blast result for each query, its taxonomic information, and the various blast metrics.
  
 #### Method 2: Searching centroid sequences against UNITE with no similarity constraints
-The script "14_searchUniteFree.sh" will search the centroids sequences against UNITEv9 with no similarity constraints (i.e. 0.5, which is the minimum, see the [vsearch manual](https://vcru.wisc.edu/simonlab/bioinformatics/programs/vsearch/vsearch_manual.pdf)).
+The script "14_searchUniteFree.sh" will search the centroid sequences against UNITEv9 with no similarity constraints (i.e. 0.5, which is the minimum, see the [vsearch manual](https://vcru.wisc.edu/simonlab/bioinformatics/programs/vsearch/vsearch_manual.pdf)).
 The script will produce three output files:   
 - ```./results/denovo_SH_table.uc```: with the search results in the format explained in the [vsearch manual](https://vcru.wisc.edu/simonlab/bioinformatics/programs/vsearch/vsearch_manual.pdf), and including the de novo centroid name with the cluster size in column 9, the matching sequence in UNITE in column 10, and the percentage of similarity in column 4;  
 - ```./results/denovo_matched_SH.fasta```: including the de novo centroid sequences with a match in UNITE;  
@@ -255,7 +256,7 @@ The script will produce three output files:
 
 
 ## Assigning ecological guilds
-The script 15_funguild.sh will use [FUNGuild](https://github.com/UMNFuN/FUNGuild) to assign ecological guilds to the putative de novo sequences. The script will assume you have the script [FUNGuild.py](https://github.com/Ralpina/FUNGuild/blob/master/FUNGuild.py) in your working directory (notice that I have forked the original repository and made a small change to the script called FUNGuild.py).  
+The script "15_funguild.sh" will use [FUNGuild](https://github.com/UMNFuN/FUNGuild) to assign ecological guilds to the putative de novo sequences deriving from script 14 and to the sequences previously found to have a match in UNITE (deriving from script 8). The script will assume you have [FUNGuild.py](https://github.com/Ralpina/FUNGuild/blob/master/FUNGuild.py) in your working directory (notice that I have forked the original repository and made a small change to the script called FUNGuild.py).  
 ...TO BE CONTINUED...
 
 
