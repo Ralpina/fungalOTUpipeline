@@ -218,7 +218,7 @@ WARNING: This quality filtering will not remove sequences with very high trace s
 ### Clustering sequences to obtain centroids
 The script "10_denovo_centroids.sh" will:
 - cluster sequences in ```vsearch``` based on abundance (cluster_size), using an identity threshold = 97% (note that you can adjust this percentage based on your needs) and output the file ```./results/denovo_centroids.fasta```, including all the centroid sequences and the relative size of each cluster (this runs quickly and produce a message output that can be visualised in the error file ```errorcluster.txt```; 
-- extract the ab1/scf files (chromatograms) of the original sequences the de novo centroid derive from, and copy them in the newly created folder "chrom_check". Notice that these chromatograms will be pre-assembly and pre-filtering and will not display any trimming made to sequences. s_WARNING_s: If you have not inspected chromatogram sequences before, A MANUAL STEP WITH VISUAL INSPECTION OF CHROMATOGRAMS IS STRONGLY RECOMMENDED AT THIS STAGE.
+- extract the ab1/scf files (chromatograms) of the original sequences the de novo centroid derive from, and copy them in the newly created folder "chrom_check". Notice that these chromatograms will be pre-assembly and pre-filtering and will not display any trimming made to sequences. WARNING: If you have not inspected chromatogram sequences before, A MANUAL STEP WITH VISUAL INSPECTION OF CHROMATOGRAMS IS STRONGLY RECOMMENDED AT THIS STAGE, especially before assuming that de novo sequences are new OTUs.
 
  
 ### Trying to assign all sequences to clusters 
@@ -254,15 +254,16 @@ The script 15_funguild.sh will use [FUNGuild](https://github.com/UMNFuN/FUNGuild
 
 
  
-### Acknowledgements
-Scripts number 5, 12 and 13 are associated with [van der Linde et al. 2018](https://www.nature.com/articles/s41586-018-0189-9).
-Roberta Gargiulo's work is funded by Defra.
+
 
 ### References
+FUNGuild:  
 - Nguyen NH, Song Z, Bates ST, Branco S, et al. 2016. FUNGuild: an open annotation tool for parsing fungal community datasets by ecological guild. Fungal Ecology 20, 241-248.
+
+Scripts number 5, 12 and 13 are associated with [van der Linde et al. 2018](https://www.nature.com/articles/s41586-018-0189-9):
 - van der Linde S, Suz LM, Orme CDL, et al. 2018 Environment and host as large-scale controls of ectomycorrhizal fungi. Nature 558, 243–248 (2018). https://doi.org/10.1038/s41586-018-0189-9
 
-
+Roberta Gargiulo's work is funded by Defra.
 
 
 
