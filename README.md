@@ -246,7 +246,7 @@ The script will produce three output files:
 - ```./results/denovo_NOTmatched_SH.fasta```: including the de novo centroid sequences without a match in UNITE.
 
 
-### Assigning ecological guilds to "de novo" sequences
+## Assigning ecological guilds
 The script 15_funguild.sh will use [FUNGuild](https://github.com/UMNFuN/FUNGuild) to assign ecological guilds to the putative de novo sequences.  
 ...TO BE CONTINUED...
 
@@ -256,7 +256,7 @@ The script 15_funguild.sh will use [FUNGuild](https://github.com/UMNFuN/FUNGuild
  
 
 
-### References
+## References
 FUNGuild:  
 - Nguyen NH, Song Z, Bates ST, Branco S, et al. 2016. FUNGuild: an open annotation tool for parsing fungal community datasets by ecological guild. Fungal Ecology 20, 241-248.
 
