@@ -8,6 +8,9 @@ The workflow is designed for users of the [high performance computing facility a
 ## Table of Contents
 
 [Getting organised](https://github.com/Ralpina/fungalOTUpipeline#getting-organised)  
+   - [Software programmes and tools required]
+   - [Sequence files naming convention](https://github.com/Ralpina/fungalOTUpipeline#sequence-files-naming-convention)  
+   - [Running scripts and creating directories](https://github.com/Ralpina/fungalOTUpipeline#running-scripts-and-creating-directories)
 
 [Basecalling using phred and first quality screening](https://github.com/Ralpina/fungalOTUpipeline#basecalling-using-phred-and-first-quality-screening)  
 
@@ -23,14 +26,19 @@ The workflow is designed for users of the [high performance computing facility a
 
 [Searching filtered sequences against the UNITE database](https://github.com/Ralpina/fungalOTUpipeline#searching-filtered-sequences-against-the-unite-database)
 
-[Identifying sequences with no matching taxa in UNITE ("de novo" OTUs)](https://github.com/Ralpina/fungalOTUpipeline#identifying-sequences-with-no-matching-taxa-in-unite-de-novo-otus)
+[Identifying sequences with no matching taxa in UNITE ("de novo" OTUs)](https://github.com/Ralpina/fungalOTUpipeline#identifying-sequences-with-no-matching-taxa-in-unite-de-novo-otus)  
+  - [Hard-filtering sequences for clustering](https://github.com/Ralpina/fungalOTUpipeline#hard-filtering-sequences-for-clustering)
+  - [Clustering sequences to obtain centroids](https://github.com/Ralpina/fungalOTUpipeline#clustering-sequences-to-obtain-centroids)
+  - [Trying to assign all sequences to clusters](https://github.com/Ralpina/fungalOTUpipeline#trying-to-assign-all-sequences-to-clusters)
+  - [Identifying "de novo" centroid sequences](https://github.com/Ralpina/fungalOTUpipeline#identifying-de-novo-centroid-sequences)
 
+[Assigning ecological guilds](https://github.com/Ralpina/fungalOTUpipeline#assigning-ecological-guilds)
 
+[References](https://github.com/Ralpina/fungalOTUpipeline#references)
 
 ## Getting organised
-### Sequence files naming convention
-
-Software programmes and tools required (with versions used for the presented workflow):  
+### Software programmes and tools required 
+(with versions used for the presented workflow):  
 
 `phred/0.071220` (see how to obtain it [here](https://www.phrap.com/phred/))  
 `phd2fasta/0.130911` (see how to obtain it [here](https://www.phrap.com/phred/))  
@@ -47,7 +55,7 @@ Software programmes and tools required (with versions used for the presented wor
 `blast/2.13.0+`  
 `anaconda/2020.11`  
 
-
+### Sequence files naming convention
 As the sequence files I inherited (almost 100K!) were not named consistently, I had to explore ways to make their analysis consistent. The code was then built based on the assumption that sequence file names followed the conventions below:
   - Each DNA template is indicated by a non-overlapping and unique code (i.e. a unique code MUST NOT be contained in another unique code).   
 Unique code will become the most important identifier of your samples.  In my case, for example, "E05.ab1" is not a valid file name, as "E05" is a plate well name contained in other unique codes, e.g. "ITS1F_SV13S1E05.ab1" and many others;  
