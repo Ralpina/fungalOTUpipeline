@@ -255,7 +255,7 @@ The script will produce three output files:
 
 
 ## Assigning ecological guilds
-The script 15_funguild.sh will use [FUNGuild](https://github.com/UMNFuN/FUNGuild) to assign ecological guilds to the putative de novo sequences.  
+The script 15_funguild.sh will use [FUNGuild](https://github.com/UMNFuN/FUNGuild) to assign ecological guilds to the putative de novo sequences. The script will assume you have the script [FUNGuild.py](https://github.com/Ralpina/FUNGuild/blob/master/FUNGuild.py) in your working directory (notice that I have forked the original repository and made a small change to the script called FUNGuild.py).  
 ...TO BE CONTINUED...
 
 
