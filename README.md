@@ -8,7 +8,7 @@ The workflow is designed for users of the [high performance computing facility a
 ## Table of Contents
 
 [Getting organised](https://github.com/Ralpina/fungalOTUpipeline#getting-organised)  
-   - [Software programmes and tools required]
+   - [Software programmes and tools required](https://github.com/Ralpina/fungalOTUpipeline#software-programmes-and-tools-required)
    - [Sequence files naming convention](https://github.com/Ralpina/fungalOTUpipeline#sequence-files-naming-convention)  
    - [Running scripts and creating directories](https://github.com/Ralpina/fungalOTUpipeline#running-scripts-and-creating-directories)
 
