@@ -272,7 +272,20 @@ FUNGuild:
 Scripts number 5, 12 and 13 are associated with [van der Linde et al. 2018](https://www.nature.com/articles/s41586-018-0189-9):
 - van der Linde S, Suz LM, Orme CDL, et al. 2018 Environment and host as large-scale controls of ectomycorrhizal fungi. Nature 558, 243–248 (2018). https://doi.org/10.1038/s41586-018-0189-9
 
-Roberta Gargiulo's work is funded by Defra.
+Roberta Gargiulo's work is funded by the Defra Terrestrial Natural Capital and Ecosystem Assessment (tNCEA) Programme.  
+
+
+
+[![CC BY 4.0][cc-by-shield]][cc-by]
+
+This work is licensed under a
+[Creative Commons Attribution 4.0 International License][cc-by].
+
+[![CC BY 4.0][cc-by-image]][cc-by]
+
+[cc-by]: http://creativecommons.org/licenses/by/4.0/
+[cc-by-image]: https://i.creativecommons.org/l/by/4.0/88x31.png
+[cc-by-shield]: https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg
 
 
 
