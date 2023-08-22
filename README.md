@@ -340,8 +340,9 @@ The script will produce three output files:
 
 
 ## Assigning ecological guilds
-The script "15_funguild.sh" will use [FUNGuild](https://github.com/UMNFuN/FUNGuild) to assign ecological guilds to the putative de novo sequences deriving from script 14 and to the sequences previously found to have a match in UNITE (deriving from script 8). The script will assume you have [FUNGuild.py](https://github.com/Ralpina/FUNGuild/blob/master/FUNGuild.py) in your working directory (notice that I have forked the original repository and made a small change to the script called FUNGuild.py).  
-...TO BE CONTINUED...
+The script "15_funguild.sh" will use [FUNGuild](https://github.com/UMNFuN/FUNGuild) to assign ecological guilds to the putative de novo sequences deriving from script 14 and to the sequences previously found to have a match in UNITE (deriving from script 8). The script will assume you have [FUNGuild.py](https://github.com/Ralpina/FUNGuild/blob/master/FUNGuild.py) in a directory called FUNGuild (notice that I have forked the original repository and made a small change to the script called FUNGuild.py).  
+The script will assign guilds to all sequences and then specifically isolate and count ectomycorrhizal fungi vs. non-ectomycorrhizal fungi, based on probable and most probable taxonomic assignments according to FUNGuild.
+
 
 
 
