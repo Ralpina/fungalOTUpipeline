@@ -122,7 +122,21 @@ The quality screening will rely on the information in the phd.1 files. For examp
 ```grep "TRIM: -1" phred_out/* | awk '{print $1}' | cut -d':' -f 1 > waste1.txt```  
 will print the name of the files where the value of TRIM is equal to "-1". A TRIM value equal to "-1" means that the number of high quality bases is < 20, basically a file with no useful information.  
 The script will also rely on the trace peak/area information in the phd.1 files, to establish whether the sequences are of sufficient quality. When peak area ratios are larger than 0.3, the sequences will be removed.  
-WARNING: This quality filtering will not remove sequences with very high trace signals (and high phred scores) but potentially overlapping peaks. 
+WARNING: This quality filtering will not remove sequences with very high trace signals (and high phred scores) but potentially overlapping peaks.  
+
+<details open>
+  <summary> Expand to see how to evaluate phred output... </summary>  
+   
+   We can have a look at the number of phd.1 files generated:     
+   ```ls phred_out | wc -l```  
+   Or the number of sequences removed by the first quality screening:  
+   ```wc -l waste.txt```  
+   The sum of the two numbers above should correspond to the number of initial sequences in ```seqs```    
+   Finally, we can have a look at the error file, normally empty:  
+    ```cat errors/errorphred.txt```  
+   
+</details>
+
 
 ## Preparing files for phrap assembly using phd2fasta
 The script "3_phd2fasta.slurm" will:  
