@@ -191,7 +191,36 @@ But in:
 ```AF ITS1F_5953FP.ab1 C 1```  
 ```AF ITS4_5953FP.ab1 U 589```  
 the script will reverse and complement the contig created (including quality file) using ```seqtk```;    
- - all contigs and singlets will be concatenated in two different fasta files (likewise, quality files).  
+ - all contigs and singlets will be concatenated in two different fasta files (likewise, quality files), in the folders ```assembled_fastq``` and ```sing_fastq```.  
+
+
+<details>
+  <summary> Expand to see sanity checks... </summary>  
+   
+   The most interesting thing to check is how many contigs have been generated, and from how many sequences they have been generated (if there were multiple forward and reverse sequences with the same code):     
+   
+   ```tail -n 17 ./myco/errors/outphrap.txt```  
+   
+   will tell:  
+   -the number of contigs generated from two sequences or more;    
+   -the number of contigs not generated because either forward or reverse were missing or of poor quality;    
+   -the number of forward and reverse pairs with good quality bases but no overlap.  
+
+   The script will have also created a fasta and a quality file for all contigs in "assembled_fastq". To count the number of contigs:    
+   ```grep -c "^>" myco/assembled_fastq/contigs.fasta```
+
+   We can also check which codes have not been assembled into contigs (resulting in singlet sequences). The number of these singlet codes:   
+  
+   ```wc -l singlets.txt```  
+   
+   and the number of singlets:  
+   ```grep -c "^>" myco/sing_fastq/singF.fasta```  
+   ```grep -c "^>" myco/sing_fastq/singR.fasta```
+      
+</details>
+
+
+
  
  
  ## Merging fasta and quality files to obtain fastq files
