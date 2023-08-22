@@ -242,6 +242,20 @@ The script "6_trim_filter.slurm" will:
 
 WARNING: This quality filtering will not remove sequences with very high trace signals (and high phred scores) but potentially overlapping peaks.
 
+<details>
+  <summary> Expand to see sanity checks... </summary>  
+   
+   We can have a look at the number duplicate codes:     
+   ```wc -l duplicates.txt```  
+   Or the number of clean singlets and contigs:  
+   ```grep -c "^>" ./results/clean_filt_singlets.fasta```  
+   ```grep -c "^>" ./results/clean_contigs.fasta```    
+   
+</details>
+
+
+
+
 ## Filtering chimaeric sequences
 The script "7_chimaera_filter.sh" will search for chimaeric sequences in contigs and singlets against the [UNITE v.9 database](https://doi.plutof.ut.ee/doi/10.15156/BIO/2483911) using vsearch. At the end of the script, potentially chimaeric sequences will be filtered out and two files will be produced:  
  ```results/clean_nochim_singlets.fasta```  
@@ -260,6 +274,7 @@ The script "8_searchUnite.sh" will:
    ```results/notmatched_contigs.fasta```: sequences of the contigs for which a match in UNITE was not found (they may match with a lower similarity threshold);      
    ```results/notmatched_singlets.fasta```: sequences of the singlets for which a match in UNITE was not found (they may match with a lower similarity threshold).      
 
+The number of sequences successfully found in UNITE will be printed on screen.
 At this point, we can have an idea of the taxonomic composition of our dataset (which will depend on the taxonomic composition of UNITEv9!).
  
  
@@ -277,7 +292,21 @@ The script "9_hard_filt.slurm" will:
  ```results/notmatched_filtered_singlets.fasta```   
  ```results/notmatched_filtered_contigs.fasta```  
 
-WARNING: This quality filtering will not remove sequences with very high trace signals (and high phred scores) but potentially overlapping peaks. 
+WARNING: This quality filtering will not remove sequences with very high trace signals (and high phred scores) but potentially overlapping peaks.
+
+
+<details>
+  <summary> Expand to see sanity checks... </summary>  
+   
+   We can have a look at the number of singlets filtered out after the hard filtering, by comparing the two files:      
+   ```grep -c "^>" results/notmatched_singlets.fasta```    
+   ```grep -c "^>" results/notmatched_filtered_singlets.fasta```      
+   Likewise, for contigs:  
+   ```grep -c "^>" results/notmatched_contigs.fasta```   
+   ```grep -c "^>" results/notmatched_filtered_contigs.fasta``` 
+   
+</details>
+
 
 ### Clustering sequences to obtain centroids
 The script "10_denovo_centroids.sh" will:
