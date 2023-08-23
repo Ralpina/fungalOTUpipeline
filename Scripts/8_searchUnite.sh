@@ -18,7 +18,11 @@ vsearch --usearch_global results/clean_nochim_singlets.fasta \
 		
 
 # we may need to change the following if using another database (or new UNITE releases)
-		
+
+
+# let's also concatenate the uc tables in a single file
+cat ./results/SH_table_contigs.uc ./results/SH_table_singlets.uc > ./results/SH_table.uc
+
 #let's grep them to a file:
 grep -v "*" results/SH_table_contigs.uc | cut -f 10 | cut -d '|' -f 1,3 | sort | uniq  > ./results/SH_codes_contigs.txt
 grep -v "*" results/SH_table_singlets.uc | cut -f 10 | cut -d '|' -f 1,3 | sort | uniq > ./results/SH_codes_singlets.txt
