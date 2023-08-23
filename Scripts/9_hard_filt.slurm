@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-#SBATCH --chdir=/data/projects/gargiulo_popgen/myco/
+#SBATCH --chdir=/home/yourusername/myco/
 #SBATCH --job-name=hard_filt
-#SBATCH --error=/data/projects/gargiulo_popgen/myco/errors/errorHardFilt.txt
-#SBATCH --output=/data/projects/gargiulo_popgen/myco/errors/outputHardFilt.txt
+#SBATCH --error=/home/yourusername/myco/errors/errorHardFilt.txt
+#SBATCH --output=/home/yourusername/myco/errors/outputHardFilt.txt
 #
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=15
