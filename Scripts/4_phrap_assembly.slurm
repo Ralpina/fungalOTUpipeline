@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-#SBATCH --chdir=/data/projects/gargiulo_popgen/myco/assembled
+#SBATCH --chdir=/home/yourusername/myco/assembled
 #SBATCH --job-name=phrap
-#SBATCH --error=/data/projects/gargiulo_popgen/myco/errors/errorphrap.txt
-#SBATCH --output=/data/projects/gargiulo_popgen/myco/errors/outphrap.txt
+#SBATCH --error=/home/yourusername/myco/errors/errorphrap.txt
+#SBATCH --output=/home/yourusername/myco/errors/outphrap.txt
 #
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=20
