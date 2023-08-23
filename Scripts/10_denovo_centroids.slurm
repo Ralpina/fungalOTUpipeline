@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-#SBATCH --chdir=/data/projects/gargiulo_popgen/myco/
+#SBATCH --chdir=/home/yourusername/myco/
 #SBATCH --job-name=cluster_denovo
-#SBATCH --error=/data/projects/gargiulo_popgen/myco/errors/errorcluster.txt
-#SBATCH --output=/data/projects/gargiulo_popgen/myco/errors/outputcluster.txt
+#SBATCH --error=/home/yourusername/myco/errors/errorcluster.txt
+#SBATCH --output=/home/yourusername/myco/errors/outputcluster.txt
 #
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=15
