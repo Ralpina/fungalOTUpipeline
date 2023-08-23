@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-#SBATCH --chdir=/data/projects/gargiulo_popgen/myco/
+#SBATCH --chdir=/home/yourusername/myco/
 #SBATCH --job-name=phd2fasta
-#SBATCH --error=/data/projects/gargiulo_popgen/myco/errors/errorphd2fasta.txt
-#SBATCH --output=/data/projects/gargiulo_popgen/myco/errors/outphd2fasta.txt
+#SBATCH --error=/home/yourusername/myco/errors/errorphd2fasta.txt
+#SBATCH --output=/home/yourusername/myco/errors/outphd2fasta.txt
 #
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=20
