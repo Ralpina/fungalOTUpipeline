@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-#SBATCH --chdir=/data/projects/gargiulo_popgen/myco/
+#SBATCH --chdir=/home/yourusername/myco/
 #SBATCH --job-name=trim
-#SBATCH --error=/data/projects/gargiulo_popgen/myco/errors/errortrim.txt
-#SBATCH --output=/data/projects/gargiulo_popgen/myco/errors/outputtrim.txt
+#SBATCH --error=/home/yourusername/myco/errors/errortrim.txt
+#SBATCH --output=/home/yourusername/myco/errors/outputtrim.txt
 #
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=15
