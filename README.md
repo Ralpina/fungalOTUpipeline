@@ -214,8 +214,8 @@ the script will reverse and complement the contig created (including quality fil
    ```wc -l singlets.txt```  
    
    and the number of singlets:  
-   ```grep -c "^>" myco/sing_fastq/singF.fasta```  
-   ```grep -c "^>" myco/sing_fastq/singR.fasta```
+   ```grep -c "^>" ./sing_fastq/singF.fasta```  
+   ```grep -c "^>" ./sing_fastq/singR.fasta```
       
 </details>
 
