@@ -25,7 +25,8 @@ vsearch --cluster_size results/notmatched_filtered_contigs.fasta --id 0.97 \
         --threads 10 \
         --strand both \
         --fasta_width 0 \
-        --sizeout
+        --sizeout \
+        --uc results/clusters_contigs.uc
 
 # clustering singlets using vsearch - only to get an idea of the relative proportion of singlets that cluster
 
@@ -34,7 +35,8 @@ vsearch --cluster_size results/notmatched_filtered_singlets.fasta --id 0.97 \
         --threads 10 \
         --strand both \
         --fasta_width 0 \
-        --sizeout
+        --sizeout  \
+        --uc results/clusters_singlets.uc
 
 
 # clustering contigs and singlets using vsearch - gives the results we will use
@@ -44,8 +46,8 @@ vsearch --cluster_size ./results/notmatched_filtered.fasta --id 0.97 \
         --threads 10 \
         --strand both \
         --fasta_width 0 \
-        --sizeout
-
+        --sizeout \
+        --uc results/clusters.uc
 
 
 # Before assuming these de novo sequences are new OTUs, we want to make sure the quality of the original sequences is very high
