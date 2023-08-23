@@ -199,7 +199,7 @@ the script will reverse and complement the contig created (including quality fil
    
    The most interesting thing to check is how many contigs have been generated, and from how many sequences they have been generated (if there were multiple forward and reverse sequences with the same code):     
    
-   ```tail -n 17 ./myco/errors/outphrap.txt```  
+   ```tail -n 17 ./errors/outphrap.txt```  
    
    will tell:  
    -the number of contigs generated from two sequences or more;    
@@ -207,7 +207,7 @@ the script will reverse and complement the contig created (including quality fil
    -the number of forward and reverse pairs with good quality bases but no overlap.  
 
    The script will have also created a fasta and a quality file for all contigs in "assembled_fastq". To count the number of contigs:    
-   ```grep -c "^>" myco/assembled_fastq/contigs.fasta```
+   ```grep -c "^>" ./assembled_fastq/contigs.fasta```
 
    We can also check which codes have not been assembled into contigs (resulting in singlet sequences). The number of these singlet codes:   
   
