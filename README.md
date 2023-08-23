@@ -1,4 +1,4 @@
-# Fungal OTU pipeline (for KewHPC users)
+# Fungal OTU pipeline
 
 The objective of this workflow is to identify fungal Operational Taxonomic Units (OTUs) from thousands of ribosomal DNA (mainly Internal Transcribed Spacer) sequences obtained with Sanger sequencing, and to describe potentially new OTUs. Having thousands of sequences makes manual editing of chromatograms time-consuming and impractical, and therefore this workflow is recommended in that case. However, some visual inspection of chromatograms is still recommended in the final steps of the workflow, especially when potentially describing new OTUs. 
 This is by no means the best workflow; however, it is simple and can be used by people who are not familiar with scripting, provided they know the basic commands to work in a UNIX environment. 
@@ -81,6 +81,23 @@ In this workflow we will find three types of scripts (see "Scripts" folder):
 ```sh
 sbatch scripts/myscript.slurm
 ```
+
+<details>
+    <summary> Expand to see how to change the working path in slurm scripts </summary>    
+To edit any text file, you can use the GNU nano text editor. For instance, to set your working directory (usually your personal working directory) in script 2:   
+   
+   ```nano scripts/2_phred.slurm```        
+
+Then manually replace the path with your username at the following lines (3,5,6):  
+         
+   ```#SBATCH --chdir=/home/yourusername/myco/```    
+   ```#SBATCH --error=/home/yourusername/myco/errors/errorphred.txt```    
+   ```#SBATCH --output=/home/yourusername/myco/errors/out.txt```  
+
+</details>
+
+
+
 - non-slurm scripts (e.g. python or shell) have specific extension and need to made executable. For example, the scripts "myscript.py" and "myscript.sh" need to be made executable as follows:
 ```sh 
 chmod +x myscript.py
@@ -89,6 +106,7 @@ chmod +x myscript.sh
 python myscript.py
 ./myscript.sh
 ```
+
 The first script of this workflow will simply create directories to organise the data at the different stages of the pipeline. (You can always change the directory names to what works best for you).
 ```sh
 ./1_create_dirs.sh
@@ -229,7 +247,9 @@ The script "5_fasta_to_fastq.py" simply checks that DNA and quality sequences wi
 module load python/2.7.18
 python 5_fasta_to_fastq.py
  ```
- 
+Tip: .py and .sh scripts need to be run from the ```myco``` directory
+
+
 ## Filtering and trimming sequences
 The script "6_trim_filter.slurm" will:  
 - reverse and complement the singlets obtained with the ITS4 (reverse primer) and trim them using ```seqtk```;  
@@ -354,10 +374,11 @@ The script will assign guilds to all sequences and then specifically isolate and
 FUNGuild:  
 - Nguyen NH, Song Z, Bates ST, Branco S, et al. 2016. FUNGuild: an open annotation tool for parsing fungal community datasets by ecological guild. Fungal Ecology 20, 241-248.
 
-Scripts number 5, 12 and 13 are associated with [van der Linde et al. 2018](https://www.nature.com/articles/s41586-018-0189-9):
+
+This README document and the associated scripts were prepared by Roberta Gargiulo, funded by the Defra Terrestrial Natural Capital and Ecosystem Assessment (tNCEA) Programme.  Contributors to the workflow design and testing are: Laura M. Suz, Guillaume Delhaye and Martin Bidartondo. Scripts number 5, 12 and 13 are associated with [van der Linde et al. 2018](https://www.nature.com/articles/s41586-018-0189-9):
 - van der Linde S, Suz LM, Orme CDL, et al. 2018 Environment and host as large-scale controls of ectomycorrhizal fungi. Nature 558, 243–248 (2018). https://doi.org/10.1038/s41586-018-0189-9
 
-Roberta Gargiulo's work is funded by the Defra Terrestrial Natural Capital and Ecosystem Assessment (tNCEA) Programme.  
+
 
 
 
