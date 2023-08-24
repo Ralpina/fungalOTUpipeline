@@ -98,13 +98,14 @@ Then manually replace the path with your username at the following lines (3,5,6)
 
 
 
-- non-slurm scripts (e.g. python or shell) have specific extension and need to made executable. For example, the scripts "myscript.py" and "myscript.sh" need to be made executable as follows:
+- non-slurm scripts (e.g. python or shell) have the specific extensions .py and .sh. Shell scripts need to be made executable as follows:  
 ```sh 
-chmod +x myscript.py
 chmod +x myscript.sh
 # and then run using:
-python myscript.py
 ./myscript.sh
+# python scripts can be run as follows:
+module load python/2.7.18
+python myscript.py
 ```
 
 The first script of this workflow will simply create directories to organise the data at the different stages of the pipeline. (You can always change the directory names to what works best for you).
