@@ -1,7 +1,7 @@
 # for contigs:
 module load vsearch/2.22.1
 vsearch --uchime_ref results/clean_contigs.fasta \
-        --db database/sh_general_release_dynamic_s_29.11.2022.fasta \
+        --db database/sh_general_release_dynamic_s_25.07.2023.fasta \
         --uchimealns chimeras/chimera_contigs.aln \
         --notrunclabels \
         --nonchimeras results/nochim_clean_contigs.fasta \
@@ -34,7 +34,7 @@ vsearch --cluster_fast chimeras/chim_contigs_sorted.fasta --id 0.99 \
 
 # for singlets:
 vsearch --uchime_ref results/clean_filt_singlets.fasta \
-        --db database/sh_general_release_dynamic_s_29.11.2022.fasta \
+        --db database/sh_general_release_dynamic_s_25.07.2023.fasta \
         --uchimealns chimeras/chimera_singlets.aln \
         --notrunclabels \
         --nonchimeras results/nochim_clean_singlets.fasta \
