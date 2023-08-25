@@ -2,7 +2,7 @@ module load vsearch/2.22.1
 
 # for the contigs
 vsearch --usearch_global results/clean_nochim_contigs.fasta \
-        --db database/sh_general_release_dynamic_s_29.11.2022.fasta \
+        --db database/sh_general_release_dynamic_s_25.07.2023.fasta \
         --id 0.97 --strand both \
         --uc results/SH_table_contigs.uc \
         --matched results/matched_contigs.fasta \
@@ -10,7 +10,7 @@ vsearch --usearch_global results/clean_nochim_contigs.fasta \
 
 # for the singlets
 vsearch --usearch_global results/clean_nochim_singlets.fasta \
-        --db database/sh_general_release_dynamic_s_29.11.2022.fasta \
+        --db database/sh_general_release_dynamic_s_25.07.2023.fasta \
         --id 0.97 --strand both \
         --uc results/SH_table_singlets.uc \
         --matched results/matched_singlets.fasta \
