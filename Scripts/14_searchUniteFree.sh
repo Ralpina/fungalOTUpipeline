@@ -2,7 +2,7 @@
 
 module load vsearch/2.22.1
 vsearch --usearch_global results/denovo_centroids.fasta \
-        --db database/sh_general_release_dynamic_s_29.11.2022.fasta  \
+        --db database/sh_general_release_dynamic_s_25.07.2023.fasta  \
         --id 0.5 --strand both \
         --uc results/denovo_SH_table.uc \
         --matched results/denovo_matched_SH.fasta \
