@@ -128,7 +128,7 @@ The script will create the following directories:
 `myco/errors`
 
 Sequences with the extension `ab1` should be then uploaded to the newly created directoy `seqs`. The number of sequences uploaded can be checked using `ls seqs | wc -l`.  
-A local database can also be downloaded from the UNITE website, for example: [UNITE v.9 database](https://doi.plutof.ut.ee/doi/10.15156/BIO/2483911).
+A local database can also be downloaded from the UNITE website, for example: [UNITE v.9 database](https://doi.plutof.ut.ee/doi/10.15156/BIO/2938068), or check for new releases [here](https://unite.ut.ee/repository.php).  
 
 
 
@@ -278,14 +278,14 @@ WARNING: This quality filtering will not remove sequences with very high trace s
 
 
 ## Filtering chimaeric sequences
-The script "7_chimaera_filter.sh" will search for chimaeric sequences in contigs and singlets against the [UNITE v.9 database](https://doi.plutof.ut.ee/doi/10.15156/BIO/2483911) using vsearch. At the end of the script, potentially chimaeric sequences will be filtered out and two files will be produced:  
+The script "7_chimaera_filter.sh" will search for chimaeric sequences in contigs and singlets against the [UNITE v.9 database](https://doi.plutof.ut.ee/doi/10.15156/BIO/2938068) using vsearch. At the end of the script, potentially chimaeric sequences will be filtered out and two files will be produced:  
  ```results/clean_nochim_singlets.fasta```  
   ```results/clean_nochim_contigs.fasta```
 
 
 ## Searching filtered sequences against the UNITE database
 The script "8_searchUnite.sh" will:
-- search all filtered contigs and singlets against [UNITE v.9](https://doi.plutof.ut.ee/doi/10.15156/BIO/2483911) (using the algorithm usearch_global in vsearch), using a similarity threshold of 97% (notice that this threshold can be changed based on your needs);  
+- search all filtered contigs and singlets against [UNITE v.9](https://doi.plutof.ut.ee/doi/10.15156/BIO/2938068) (using the algorithm usearch_global in vsearch), using a similarity threshold of 97% (notice that this threshold can be changed based on your needs);  
 - print lists of taxa with corresponding SH codes, for contigs, singlets and combined contigs/singlets (with extention .txt);  
 - the script will also produce the following files:  
    ```results/SH_table_contigs.uc```: full table of contigs in the format explained in the [vsearch manual](https://vcru.wisc.edu/simonlab/bioinformatics/programs/vsearch/vsearch_manual.pdf);    
@@ -373,8 +373,9 @@ The script will assign guilds to all sequences and then specifically isolate and
 
 ## References
 FUNGuild:  
-- Nguyen NH, Song Z, Bates ST, Branco S, et al. 2016. FUNGuild: an open annotation tool for parsing fungal community datasets by ecological guild. Fungal Ecology 20, 241-248.
-
+- Nguyen NH, Song Z, Bates ST, Branco S, et al. 2016. FUNGuild: an open annotation tool for parsing fungal community datasets by ecological guild. Fungal Ecology 20, 241-248.  
+UNITE:
+- Abarenkov, Kessy; Zirk, Allan; Piirmann, Timo; Pöhönen, Raivo; Ivanov, Filipp; Nilsson, R. Henrik; Kõljalg, Urmas (2023): UNITE general FASTA release for Fungi 2. Version 18.07.2023. UNITE Community. https://doi.plutof.ut.ee/doi/10.15156/BIO/2938068.   
 
 This README document and the associated scripts were prepared by Roberta Gargiulo, funded by the Defra Terrestrial Natural Capital and Ecosystem Assessment (tNCEA) Programme.  Contributors to the workflow design and testing are: Laura M. Suz, Guillaume Delhaye and Martin Bidartondo. Scripts number 5, 12 and 13 are associated with [van der Linde et al. 2018](https://www.nature.com/articles/s41586-018-0189-9):
 - van der Linde S, Suz LM, Orme CDL, et al. 2018 Environment and host as large-scale controls of ectomycorrhizal fungi. Nature 558, 243–248 (2018). https://doi.org/10.1038/s41586-018-0189-9
