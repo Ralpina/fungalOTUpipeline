@@ -176,8 +176,6 @@ for duplicate in "${duplicates[@]}"; do
  grep $duplicate ./results/name.txt 
 done | sort  > ./results/duplicate_singlets.txt
 
-sort ./results/name.txt
-
 # excluding the duplicate singlets and saving only the unique ones:
 sort ./results/name.txt > results/name_sorted.txt
 comm -1 -3 ./results/duplicate_singlets.txt ./results/name_sorted.txt > ./results/unique_singlets.txt
@@ -200,4 +198,7 @@ done
 
 # concatenating all the final singlets
 cat ./results/clean_unique_singlets.fasta ./results/clean_filt_dupl_singlets.fasta > ./results/clean_filt_singlets.fasta
+
+# removing a few files not needed:
+rm ./results/clean_contigs1.fasta
 
