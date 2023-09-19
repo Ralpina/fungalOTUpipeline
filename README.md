@@ -254,7 +254,7 @@ Tip: .py and .sh scripts need to be run from the ```myco``` directory
 ## Filtering and trimming sequences
 The script "6_trim_filter.slurm" will:  
 - reverse and complement the singlets obtained with the ITS4 (reverse primer) and trim them using ```seqtk```;  
-- trim all contigs and singlets and filter out all sequences shorter than 100 nucleotides using ```trimmomatic```;  
+- trim all contigs and singlets based on quality, and filter out all sequences shorter than 100 nucleotides using ```trimmomatic```;  
 - convert the fastq file with clean sequences to a fasta file;  
 - check whether some "duplicate" templates exist, i.e. singlets obtained from the same DNA (for example too short to be assembled into a contig), and select one of them based their length (using ```seqkit``` to extract lengths) and the peak area ratio of their chromatogram. In particular, the script will keep the singlet with the smallest trace peak-area ratio, but only if the singlet is longer than 150 bp;  
 - produce the following files:  
