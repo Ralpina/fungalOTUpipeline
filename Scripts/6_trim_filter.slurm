@@ -48,12 +48,12 @@ trimmomatic SE -phred33 \
 trimmomatic SE -phred33 \
         sing_fastq/singlets.fastq \
         sing_fastq/clean_singlets.fastq \
-        LEADING:25 TRAILING:25 MINLEN:100
+        LEADING:30 TRAILING:30 MINLEN:100
 
-# Getting the final fastq and fasta files for Clustering and Database matching
+# Getting the final fastq and fasta files for the UNITE search and for clustering
 # we keep contigs and singlets separately
 
-# Drop the quality scores to get a fasta file for the next steps (but still keeping the fastq versions for when needed)
+# Drop the quality scores to get a fasta file for the next steps (but still keeping the fastq versions if needed)
 
 vsearch --fastq_filter ./assembled_fastq/clean_contigs.fastq --fastq_qmax 93 --fastaout ./assembled_fastq/clean_contigs.fasta
 vsearch --fastq_filter ./sing_fastq/clean_singlets.fastq --fastq_qmax 93 --fastaout ./sing_fastq/clean_singlets.fasta
