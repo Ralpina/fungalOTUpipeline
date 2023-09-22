@@ -284,18 +284,26 @@ The script "7_chimaera_filter.sh" will search for chimaeric sequences in contigs
 
 
 ## Searching filtered sequences against the UNITE database
-The script "8_searchUnite.sh" will:
-- search all filtered contigs and singlets against [UNITE v.9](https://doi.plutof.ut.ee/doi/10.15156/BIO/2938068) (using the algorithm usearch_global in vsearch), using a similarity threshold of 97% (notice that this threshold can be changed based on your needs);  
-- print lists of taxa with corresponding SH codes, for contigs, singlets and combined contigs/singlets (with extention .txt);  
-- the script will also produce the following files:  
-   ```results/SH_table_contigs.uc```: full table of contigs in the format explained in the [vsearch manual](https://vcru.wisc.edu/simonlab/bioinformatics/programs/vsearch/vsearch_manual.pdf);    
-   ```results/SH_table_singlets.uc```: full table of singlets, as above;  
+The script "8_searchUnite.slurm" will:
+- search all filtered contigs and singlets against [UNITE v.9](https://doi.plutof.ut.ee/doi/10.15156/BIO/2938068) (using the algorithm usearch_global in vsearch), using a similarity threshold > 97% (notice that this threshold can be changed based on your needs);
+- for contigs without a match in UNITE with > 97% similarity, retrieve original singlets forming the contig, trim low-quality ends and filter out if length < 100 bp, select only one orientation if multiple orientations are present (as in script 6), and search the filtered set against UNITE using a similarity threshold > 97%; notice that this step will use the intermediate python script "8b_fasta_to_fastq.py" (make sure it's in the directory "myco");  
+- print lists of taxa with corresponding SH codes (with extention .txt);  
+- the script will also produce several files:   
+   ```results/SH_table_contigs.uc```: table of contigs with their match in UNITE, in the format explained in the [vsearch manual](https://vcru.wisc.edu/simonlab/bioinformatics/programs/vsearch/vsearch_manual.pdf);    
+   ```results/SH_table_singlets.uc```: table of singlets with their match in UNITE, in the format as explained above;  
    ```results/matched_contigs.fasta```: sequences of the contigs for which a match in UNITE was found (over 97% similarity);   
-   ```results/matched_singlets.fasta```: sequences of the singlets for which a match in UNITE was found (over 97% similarity);    
+   ```results/matched_singlets.fasta```: sequences of the singlets for which a match in UNITE was found (over 97% similarity);     
    ```results/notmatched_contigs.fasta```: sequences of the contigs for which a match in UNITE was not found (they may match with a lower similarity threshold);      
-   ```results/notmatched_singlets.fasta```: sequences of the singlets for which a match in UNITE was not found (they may match with a lower similarity threshold).      
+   ```results/notmatched_singlets.fasta```: sequences of the singlets for which a match in UNITE was not found (they may match with a lower similarity threshold);  
+   ```results/disassembled/SH_table_singlets.uc```: table of new singlets deriving from contigs with their matches in UNITE, in the format as explained above;  
+   ```results/disassembled/matched_singlets.fasta```: sequences of the new singlets for which a match in UNITE was found (over 97% similarity);  
+   ```results/disassembled/notmatched_singlets.fasta```: sequences of the new singlets for which a match in UNITE was not found (they may match with a lower similarity threshold);  
+   and, most importantly:  
+   ```results/SH_table.uc```: table of sequences with their match in UNITE, in the format explained in the [vsearch manual](https://vcru.wisc.edu/simonlab/bioinformatics/programs/vsearch/vsearch_manual.pdf);  
+   ```results/notmatched.fasta```: all final (singlet) sequences for which a match in UNITE was not found.  
 
-The number of sequences successfully found in UNITE will be printed on screen.
+
+
 At this point, we can have an idea of the taxonomic composition of our dataset (which will depend on the taxonomic composition of UNITEv9!).
  
  
