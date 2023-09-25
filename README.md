@@ -334,16 +334,15 @@ WARNING: This quality filtering will not remove sequences with very high trace s
 
 ### Clustering sequences to obtain centroids
 The script "10_denovo_centroids.slurm" will:
-- cluster sequences in ```vsearch``` based on abundance (cluster_size), using an identity threshold = 97% (note that you can adjust this percentage based on your needs) and output the file ```./results/denovo_centroids.fasta```, including all the centroid sequences and the relative size of each cluster (this runs quickly and produces an output message that can be visualised in the error file ```errorcluster.txt```); the table ```./results/clusters.uc``` will include the list of all centroid sequences (in rows starting by "S"), of all sequences belonging to clusters (in rows starting by "H"), and the details of all clusters, including their size (in rows starting by "C");
-- extract the ab1 files (chromatograms) of the original sequences the de novo centroid derive from, and copy them in the newly created folder "chrom_check". Notice that these chromatograms will be pre-assembly and pre-filtering and will not display any trimming made to sequences.   WARNING: If you have not inspected chromatogram sequences before, A MANUAL STEP WITH VISUAL INSPECTION OF CHROMATOGRAMS IS STRONGLY RECOMMENDED AT THIS STAGE, especially before assuming that de novo sequences are new OTUs.
+- cluster sequences in ```vsearch``` based on abundance (cluster_size), using the similarity threshold ">97%" (note that you can adjust this percentage based on your needs) and output the file ```./results/denovo_centroids.fasta```, including all the centroid sequences and the relative size of each cluster (this runs quickly and produces an output message that can be visualised in the error file ```./errors/errorcluster.txt```); the table ```./results/clusters.uc``` will include the list of all centroid sequences (in rows starting by "S"), of all sequences belonging to clusters (in rows starting by "H"), and the details of all clusters, including their size (in rows starting by "C");
+- retrieve the ab1 files (chromatograms) of the original sequences the de novo centroids derive from, and copy them in the newly created folder "chrom_check". Notice that these chromatograms will be pre-filtering and will not display any trimming made to the sequences.   WARNING: If you have not inspected chromatogram sequences before, A MANUAL STEP WITH VISUAL INSPECTION OF CHROMATOGRAMS IS STRONGLY RECOMMENDED AT THIS STAGE, especially before assuming that de novo sequences are new OTUs.
 
  
 ### Trying to assign all sequences to clusters 
-The script "11_match_unmatched.sh" will try to assign all the sequences that were not found in UNITEv9 using a similarity threshold = 97%
+The script "11_match_unmatched.sh" will try to assign all the sequences that were not found in UNITEv9 using the similarity threshold ">97%",
 to the centroids previously obtained. In particular, it will:  
-- concatenate the files ```./results/notmatched_contigs.fasta``` and ```./results/notmatched_singlets.fasta``` in the file ```./results/notmatched.fasta``` (notice that these files derive from the script 8 and are not filtered);  
-- use ```vsearch``` to compare sequences to the centroids in the file ```./results/denovo_centroids.fasta```   
-- produce three files, including the list of the sequences matching to centroids (```./results/matched_to_denovo.uc```), and fasta files with sequences matching (```./results/matched_to_denovo.fasta```) or not matching to centroids (```./results/NOT_matched_to_denovo.fasta```) using a 97% similarity threshold.
+- use ```vsearch``` to compare the sequences in ```results/notmatched.fasta``` (deriving from script 8) to the centroids in the file ```./results/denovo_centroids.fasta``` (using a similarity threshold ">97%");     
+- produce three files, including the list of sequences matching to centroids (```./results/matched_to_denovo.uc```), and fasta files with sequences matching (```./results/matched_to_denovo.fasta```) or not matching to centroids (```./results/NOT_matched_to_denovo.fasta```) using the given similarity threshold.
  
  
 ### Identifying "de novo" centroid sequences
