@@ -285,17 +285,17 @@ The script "7_chimaera_filter.sh" will search for chimaeric sequences in contigs
 
 ## Searching filtered sequences against the UNITE database
 The script "8_searchUnite.slurm" will:
-- search all filtered contigs and singlets against [UNITE v.9](https://doi.plutof.ut.ee/doi/10.15156/BIO/2938068) (using the algorithm usearch_global in vsearch), using a similarity threshold > 97% (notice that this threshold can be changed based on your needs);
-- for contigs without a match in UNITE with > 97% similarity, retrieve original singlets forming the contig, trim low-quality ends and filter out if length < 100 bp, select only one orientation if multiple orientations are present (as in script 6), and search the filtered set against UNITE using a similarity threshold > 97%; notice that this step will use the intermediate python script "8b_fasta_to_fastq.py" (make sure it's in the directory "myco");  
+- search all filtered contigs and singlets against [UNITE v.9](https://doi.plutof.ut.ee/doi/10.15156/BIO/2938068) (using the algorithm usearch_global in vsearch), using the similarity threshold ">97%" (notice that this threshold can be changed based on your needs);
+- if, after the step above, some contigs do not have a match in UNITE with >97% similarity, the script will retrieve original singlets forming each contig, trim low-quality ends, filter out if sequence length < 100 bp, select only one orientation if multiple orientations occur (as in script 6), and finally search the filtered set against UNITE using the similarity threshold ">97%"; notice that this step will use the intermediate python script "8b_fasta_to_fastq.py" (make sure it's in the directory "myco"). The rationale for this step is based on the observation that some contigs have low-quality basecalling in the middle part of their sequence, causing mismatches when searched against UNITE;  
 - print lists of taxa with corresponding SH codes (with extention .txt);  
 - the script will also produce several files:   
    ```results/SH_table_contigs.uc```: table of contigs with their match in UNITE, in the format explained in the [vsearch manual](https://vcru.wisc.edu/simonlab/bioinformatics/programs/vsearch/vsearch_manual.pdf);    
-   ```results/SH_table_singlets.uc```: table of singlets with their match in UNITE, in the format as explained above;  
+   ```results/SH_table_singlets.uc```: table of singlets with their match in UNITE, format as explained above;  
    ```results/matched_contigs.fasta```: sequences of the contigs for which a match in UNITE was found (over 97% similarity);   
    ```results/matched_singlets.fasta```: sequences of the singlets for which a match in UNITE was found (over 97% similarity);     
    ```results/notmatched_contigs.fasta```: sequences of the contigs for which a match in UNITE was not found (they may match with a lower similarity threshold);      
    ```results/notmatched_singlets.fasta```: sequences of the singlets for which a match in UNITE was not found (they may match with a lower similarity threshold);  
-   ```results/disassembled/SH_table_singlets.uc```: table of new singlets deriving from contigs with their matches in UNITE, in the format as explained above;  
+   ```results/disassembled/SH_table_singlets.uc```: table of new singlets deriving from contigs with their matches in UNITE, format as explained above;  
    ```results/disassembled/matched_singlets.fasta```: sequences of the new singlets for which a match in UNITE was found (over 97% similarity);  
    ```results/disassembled/notmatched_singlets.fasta```: sequences of the new singlets for which a match in UNITE was not found (they may match with a lower similarity threshold);  
    and, most importantly:  
@@ -304,22 +304,20 @@ The script "8_searchUnite.slurm" will:
 
 
 
-At this point, we can have an idea of the taxonomic composition of our dataset (which will depend on the taxonomic composition of UNITEv9!).
+At this point, we can have an idea of the taxonomic composition of our dataset (which will depend on the taxonomic composition of the UNITE database used).
  
  
 ## Identifying sequences with no matching taxa in UNITE ("de novo" OTUs)
 We can now work on the sequences not found in UNITE when using 97% as a similarity threshold. These sequences will be stored in:  
-```results/notmatched_contigs.fasta```  
-```results/notmatched_singlets.fasta```  
+```results/notmatched.fasta```   
 
 ### Hard-filtering sequences for clustering
 The script "9_hard_filt.slurm" will:    
-- extract singlets with peak-area ratios < 0.15: the rationale for this filter is to get rid of all sequences for which basecalling might be uncertain (those with trace peak-area ratios > 0.15), even if in small portions of the sequences. Trace peak-area ratios are retrieved from the file ./results/duplicate_lengths_peaks.txt, created in one of the previous steps;  
-- convert fasta files from multi-line to single-line, search for and remove stretches of more than nine identical nucleotides (potential indels) which may have disrupted basecalling (from both contigs and singlets);    
-- filter out sequences with more than five consecutive Ns from both contigs and singlets. The script will NOT look for additional ambiguities, as phred and phrap are not expected to have produced any, with the options used above;  
-- produce two filtered files to be used in the subsequent clustering:  
- ```results/notmatched_filtered_singlets.fasta```   
- ```results/notmatched_filtered_contigs.fasta```  
+- extract singlets with peak-area ratios < 0.15: the rationale behind this filter is getting rid of all sequences for which basecalling might be uncertain (those with trace peak-area ratios > 0.15), even if in small portions of the sequences. Trace peak-area ratios are retrieved from the file ./results/duplicate_lengths_peaks.txt and ./results/disassembled/duplicate_lengths_peaks.txt, created in one of the previous steps;  
+- convert fasta files from multi-line to single-line, search for and remove stretches of more than nine identical nucleotides (potential indels) which may have disrupted basecalling;    
+- filter out sequences with more than five consecutive Ns. The script will NOT look for additional ambiguities, as phred and phrap are not expected to produce any with the options used above;  
+- produce a file with filtered singlets to be used in the subsequent clustering:  
+ ```results/notmatched_filtered.fasta```   
 
 WARNING: This quality filtering will not remove sequences with very high trace signals (and high phred scores) but potentially overlapping peaks.
 
@@ -327,13 +325,10 @@ WARNING: This quality filtering will not remove sequences with very high trace s
 <details>
   <summary> Expand to see sanity checks... </summary>  
    
-   We can have a look at the number of singlets filtered out after the hard filtering, by comparing the two files:      
-   ```grep -c "^>" results/notmatched_singlets.fasta```    
-   ```grep -c "^>" results/notmatched_filtered_singlets.fasta```      
-   Likewise, for contigs:  
-   ```grep -c "^>" results/notmatched_contigs.fasta```   
-   ```grep -c "^>" results/notmatched_filtered_contigs.fasta``` 
-   
+   We can have a look at the number of sequences filtered out after the hard filtering, by comparing the two files:      
+   ```grep -c "^>" results/notmatched.fasta```    
+   ```grep -c "^>" results/notmatched_filtered.fasta```      
+      
 </details>
 
 
