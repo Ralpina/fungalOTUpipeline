@@ -225,7 +225,7 @@ the script will reverse and complement the contig created (including quality fil
    -the number of contigs not generated because either forward or reverse were missing or of poor quality;    
    -the number of forward and reverse pairs with good quality bases but no overlap.  
 
-   The script will have also created a fasta and a quality file for all contigs in "assembled_fastq". To count the number of contigs:    
+   The script will also have created a fasta and a quality file for all contigs in "assembled_fastq". To count the number of contigs:    
    ```grep -c "^>" ./assembled_fastq/contigs.fasta```
 
    We can also check which codes have not been assembled into contigs (resulting in singlet sequences). The number of these singlet codes:   
