@@ -9,7 +9,8 @@ cp results/denovo_SH_table.uc ./FUNGuild/
 
 cd FUNGuild/
 grep -v "^N" SH_table.uc | cut -f 9-10 > SH.uc
-grep -v "^N" denovo_SH_table.uc | cut -f 4,9,10 > denovo.uc 
+grep -v "^N" denovo_SH_table.uc | cut -f 9-10 > denovo.uc 
+grep -v "^N" denovo_SH_table.uc | cut -f 4 > similar.uc 
 
 # we add the header (make sure separators are the same as for the following lines, usually tabs)
 # most importantly, we need to add "taxonomy" as the header of the taxonomic information (case-sensitive!), in the last column
@@ -34,7 +35,7 @@ python FUNGuild.py guild -taxa denovo.taxa.uc
 cut -f 2 SH.uc | cut -d "|" -f 3 > SH.txt
 cut -f 2 denovo.uc | cut -d "|" -f 3 > SH_denovo.txt
 paste SH.taxa.guilds.txt SH.txt > guilds.SH.txt
-paste denovo.taxa.guilds.txt SH_denovo.txt > denovo.guilds.SH.txt
+paste denovo.taxa.guilds.txt SH_denovo.txt similar.uc > denovo.guilds.SH.txt
 
 # we want to extract all the accessions which are assigned with some probability to a given taxon
 # we do it for the three different files, to be able to tell apart de novo from those found in UNITE
@@ -46,7 +47,7 @@ grep "Probable" denovo.guilds.SH.txt | grep "Ectomycorrhizal" > Ectodenovoguilds
 echo "Total number of de novo Ectomycorrhizal sequences (centroids)"
 wc -l Ectodenovoguilds.txt 
 echo "Number of different SHs in all the de novo Ectomycorrhizal sequences (centroids)"
-cut -f 19 Ectodenovoguilds.txt | sort | uniq | wc -l
+cut -f 18 Ectodenovoguilds.txt | sort | uniq | wc -l
 echo "Number of different SHs in all Ectomycorrhizal sequences with 97% similarity to UNITE SHs"
 cut -f 18 Ectoguilds.txt | sort | uniq | wc -l
 
@@ -55,6 +56,6 @@ grep "Probable" guilds.SH.txt | grep -v "Ectomycorrhizal" > non_ectoguilds.txt
 grep "Probable" denovo.guilds.SH.txt | grep -v "Ectomycorrhizal" > non_ectodenovoguilds.txt
 
 echo "Number of different SHs in all the de novo non-ectomycorrhizal sequences (centroids)"
-cut -f 19 non_ectodenovoguilds.txt | sort | uniq | wc -l
+cut -f 18 non_ectodenovoguilds.txt | sort | uniq | wc -l
 echo "Number of different SHs in all non-ectomycorrhizal sequences with 97% similarity to UNITE SHs"
 cut -f 18 non_ectoguilds.txt | sort | uniq | wc -l
