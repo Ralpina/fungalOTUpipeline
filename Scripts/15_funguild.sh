@@ -17,8 +17,7 @@ grep -v "^N" denovo_SH_table.uc | cut -f 4 > similar.uc
 sed -i $'1 i x\ttaxonomy' SH.uc
 sed -i $'1 i x\ttaxonomy' denovo.uc
 # header for the similarity file
-sed '1i similarity' similar.uc
-
+sed -i '1i similarity' similar.uc
 
 module load python/3.7.14
 module load anaconda/2020.11 ## used instead of pandas on KewHPC
