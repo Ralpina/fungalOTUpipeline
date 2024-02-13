@@ -16,6 +16,8 @@ grep -v "^N" denovo_SH_table.uc | cut -f 4 > similar.uc
 # most importantly, we need to add "taxonomy" as the header of the taxonomic information (case-sensitive!), in the last column
 sed -i $'1 i x\ttaxonomy' SH.uc
 sed -i $'1 i x\ttaxonomy' denovo.uc
+# header for the similarity file
+sed '1i similarity' similar.uc
 
 
 module load python/3.7.14
