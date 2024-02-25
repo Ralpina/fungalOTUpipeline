@@ -2,6 +2,8 @@ setwd("C:/Users/rg53kg/OneDrive - The Royal Botanic Gardens, Kew/PacBio data tri
 
 library(dplyr)
 library(stringr)
+library(tidyverse)
+
 ## ----------------------------------------
 ## LOAD UNITE9 IDENTIFICATIONS
 ## ----------------------------------------
@@ -93,18 +95,6 @@ OTU_list_transposed <- OTU_list_transposed[-1, ]
 # Write the transposed data frame to a new CSV file
 write.csv(OTU_list_transposed, "A11Pa_OTU_list_transposed.csv", row.names = TRUE)
 
-
-
-
-Given a group of files called "prefix_OTU_list_transposed.csv", where the string of characters "prefix" changes and might 
-have different lengths (whereas the string "_OTU_list_transposed.csv never changes"), read the strings of characters in the second row (called "OTU"), 
-then create a new dataframe that includes in the first column the "prefix" for each file, in the header row all the "OTU" strings found,
-in alphabetical order, and depending on whether each OTU string was found or not in each file whose name included the "prefix",
-add to the dataframe in correspondence of each prefix "0" if the "OTU" string was not found and "1" if the OTU string was found.
-
-
-
-library(tidyverse)
 
 # Directory containing the files
 directory <- "C:/Users/rg53kg/OneDrive - The Royal Botanic Gardens, Kew/PacBio data trial/Preliminary - by sample/TCC samples_February 2024/UNITE results"
