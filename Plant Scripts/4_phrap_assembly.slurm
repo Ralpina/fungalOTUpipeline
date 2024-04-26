@@ -50,12 +50,8 @@ echo "done"
 
 # notice that depending on how many times you resequenced a plate, you may have contigs generated with more than 5 forward or reverse sequences, not counted by the script above
 
-# here add script to reverse contigs when ready
 
-
-# with the following, we retrieve all the "singlets", that are the sequences for which no contig was created:
-
-module load phd2fasta/0.130911
+# The script below will move contigs successfully built to the directory "assembled_fastq", whereas it will extract information about the singlets
 
 # Loop through all ".contigs" files in the directory
 for file in *.contigs; do
@@ -81,9 +77,10 @@ for file in *.contigs; do
   fi
 done
 
-cat ../assembled_fastq/*.contigs > ../assembled_fastq/contigs.fasta
-cat ../assembled_fastq/*.qual > ../assembled_fastq/contigs.qual
 
+# we need to re-run phd2fasta for the singlets:
+
+module load phd2fasta/0.130911
 
 while read string; do
 files=$(find ../phred_out/ -name "*${string}*.ab1.phd.1")
@@ -92,8 +89,26 @@ for file in $files; do
 done
 done < ../singlets.txt
 
-
-
-mv ../sing/rbcLr590* ../singR
+mv ../sing/ITS3R* ../singR
 phd2fasta -id ../sing -os ../sing_fastq/singF.fasta -oq ../sing_fastq/singF.qual
 phd2fasta -id ../singR -os ../sing_fastq/singR.fasta -oq ../sing_fastq/singR.qual
+
+# Understanding whether some contigs are reverse-complemented (we assume the orientation will be given by the forward primer)
+
+# I need to extract the info from the ace file, but then need to reverse the fasta and the quality file in the folder assembled_fastq/
+
+grep "AF ITS2F" *.ace | grep ".ab1 C" | cut -d "." -f 1 | sort | uniq > ../contigsTOreverse.txt
+
+module load seqtk/1.3
+
+contigs=($(cat ../contigsTOreverse.txt))
+for contig in "${contigs[@]}"; do
+ seqtk seq -r ../assembled_fastq/$contig.contigs > ../assembled_fastq/$contig.temp.contigs
+ mv ../assembled_fastq/$contig.temp.contigs ../assembled_fastq/$contig.contigs
+ seqtk seq -r ../assembled_fastq/$contig.contigs.qual > ../assembled_fastq/$contig.temp.contigs.qual
+ mv ../assembled_fastq/$contig.temp.contigs.qual ../assembled_fastq/$contig.contigs.qual
+done
+
+# Let's concatenate all contigs and quality files in the same files, respectively:
+cat ../assembled_fastq/*.contigs > ../assembled_fastq/contigs.fasta
+cat ../assembled_fastq/*.qual > ../assembled_fastq/contigs.qual
