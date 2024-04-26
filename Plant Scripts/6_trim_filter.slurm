@@ -33,9 +33,6 @@ seqtk trimfq ./sing_fastq/singletsF.fastq > ./sing_fastq/singFTrimmed.fastq
 
 cat ./sing_fastq/singFTrimmed.fastq ./sing_fastq/singletsReversedTrimmed.fastq > ./sing_fastq/singlets.fastq
 
-
-# then we trim low quality ends and discard short sequences:
-
 module load trimmomatic/0.39
 module load vsearch/2.22.1
 
@@ -49,15 +46,15 @@ trimmomatic SE -phred33 \
 trimmomatic SE -phred33 \
         sing_fastq/singlets.fastq \
         sing_fastq/clean_singlets.fastq \
-        LEADING:25 TRAILING:25 MINLEN:100
+        LEADING:30 TRAILING:30 MINLEN:100
 
 # Getting the final fastq and fasta files for Clustering and Database matching
 # we keep contigs and singlets separately
 
 # Drop the quality scores to get a fasta file for the next steps (but still keeping the fastq versions for when needed)
 
-vsearch --fastq_filter ./assembled_fastq/clean_contigs.fastq --fastq_qmax 90 --fastaout ./assembled_fastq/clean_contigs.fasta
-vsearch --fastq_filter ./sing_fastq/clean_singlets.fastq --fastq_qmax 90 --fastaout ./sing_fastq/clean_singlets.fasta
+vsearch --fastq_filter ./assembled_fastq/clean_contigs.fastq --fastq_qmax 93 --fastaout ./assembled_fastq/clean_contigs.fasta
+vsearch --fastq_filter ./sing_fastq/clean_singlets.fastq --fastq_qmax 93 --fastaout ./sing_fastq/clean_singlets.fasta
 # (all sequences are kept with this last bit, it's just a file conversion)
 
 # for the next steps
@@ -103,9 +100,7 @@ done > ./results/duplicate_peak_area.txt
 paste ./results/duplicate_lengths.txt ./results/duplicate_peak_area.txt > ./results/duplicate_lengths_peaks.txt
 
 
-
-
-# the below, extracts the info about peak area ratio and length to select the best
+# the script below extracts the info about peak area ratio and length to select the best
 # singlet among duplicate singlets. In particular, it takes the singlet with the smallest trace peak area ratio
 # but only if the singlet is longer than 150 bp
 
@@ -203,9 +198,8 @@ done
 
 cat ./results/clean_unique_singlets.fasta ./results/clean_filt_dupl_singlets.fasta > ./results/clean_filt_singlets.fasta
 
-# clean contigs and singlets in:
-# ./results/clean_contigs.fasta
-# ./results/clean_filt_singlets.fasta
+# removing a the file not needed:
+rm ./results/clean_contigs1.fasta
 
 
 
