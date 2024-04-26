@@ -201,7 +201,3 @@ cat ./results/clean_unique_singlets.fasta ./results/clean_filt_dupl_singlets.fas
 # removing a the file not needed:
 rm ./results/clean_contigs1.fasta
 
-# concatenating contigs and singlets:
-
-cat ./results/clean_contigs.fasta ./results/clean_filt_singlets.fasta > ./results/clean_filt_seqs.fasta
-
